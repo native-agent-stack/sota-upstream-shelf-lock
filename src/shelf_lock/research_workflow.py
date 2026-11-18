@@ -354,7 +354,9 @@ def evaluate_two_stage_lit_to_collar_shelf_gate(
 ) -> dict[str, object]:
     """Validate Stage-2 `15s` lit-bid -> `<= 10.0 bps` collar escalation (`ADR-0010` / `H095`)."""
     vals = (initial_ask_px, ask_15s_px, bid_15s_px, ask_15s_lots, order_qty_shares, max_collar_bps)
-    if any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(float(v)) for v in vals):
+    if any(
+        isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(float(v)) for v in vals
+    ):
         raise ValueError("All Stage-2 collar gate inputs must be finite real numbers")
     if initial_ask_px <= 0.0 or bid_15s_px <= 0.0 or ask_15s_px < bid_15s_px or order_qty_shares <= 0.0:
         raise ValueError("Invalid prices or order_qty_shares for Stage-2 collar gate")
@@ -377,7 +379,6 @@ def evaluate_two_stage_lit_to_collar_shelf_gate(
         "spread_15s_bps": round(spread_15s_bps, 4),
         "displayed_ask_shares": round(displayed_shares, 2),
     }
-
 
 
 def main() -> int:

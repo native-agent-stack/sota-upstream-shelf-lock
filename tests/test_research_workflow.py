@@ -147,4 +147,3 @@ def test_adr0010_two_stage_lit_to_collar_shelf_gate() -> None:
     )
     assert chased["eligible_for_collar_fill"] is False
     assert chased["collar_fill_px"] is None
-
