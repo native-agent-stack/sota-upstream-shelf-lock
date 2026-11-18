@@ -381,6 +381,81 @@ def evaluate_two_stage_lit_to_collar_shelf_gate(
     }
 
 
+def evaluate_dry_powder_15s_bid_survival_collar_gate(
+    *,
+    initial_bid_px: float,
+    initial_ask_px: float,
+    min_lit_roundlot_px_0_15s: float | None,
+    bid_15s_px: float,
+    ask_15s_px: float,
+    ask_15s_lots: float,
+    order_qty_shares: float,
+    ofi_entry: float,
+    iso_f_buy_share: float = 0.0,
+    bjzz_inst_dark_share: float = 0.0,
+    resting_orders_0_15s: int = 0,
+    max_collar_bps: float = 10.0,
+) -> dict[str, object]:
+    """Enforce `ADR-0011` (`H096`) pure dry-powder `15s` bid-survival + informed-flow collar gate."""
+    import math
+
+    vals = (
+        initial_bid_px,
+        initial_ask_px,
+        bid_15s_px,
+        ask_15s_px,
+        ask_15s_lots,
+        order_qty_shares,
+        ofi_entry,
+        iso_f_buy_share,
+        bjzz_inst_dark_share,
+        max_collar_bps,
+    )
+    if not all(math.isfinite(v) for v in vals):
+        raise ValueError("All H096 dry-powder collar gate inputs must be finite real numbers")
+    if min_lit_roundlot_px_0_15s is not None and not math.isfinite(min_lit_roundlot_px_0_15s):
+        raise ValueError("min_lit_roundlot_px_0_15s must be finite or None")
+    if (
+        initial_bid_px <= 0.0
+        or initial_ask_px < initial_bid_px
+        or bid_15s_px <= 0.0
+        or ask_15s_px < bid_15s_px
+        or order_qty_shares <= 0.0
+        or not (0.0 < max_collar_bps <= 10.0)
+    ):
+        raise ValueError("Invalid prices, order_qty_shares, or max_collar_bps for H096 gate")
+
+    dry_powder_intact = resting_orders_0_15s == 0
+    informed_flow_ok = ofi_entry >= 0.25 and (iso_f_buy_share >= 0.15 or bjzz_inst_dark_share >= 0.12)
+    no_sweep_through = min_lit_roundlot_px_0_15s is None or min_lit_roundlot_px_0_15s >= initial_bid_px - 1e-9
+    bid_15s_survived = bid_15s_px >= initial_bid_px - 1e-9
+    collar = evaluate_two_stage_lit_to_collar_shelf_gate(
+        initial_ask_px=initial_ask_px,
+        ask_15s_px=ask_15s_px,
+        bid_15s_px=bid_15s_px,
+        ask_15s_lots=ask_15s_lots,
+        order_qty_shares=order_qty_shares,
+        max_collar_bps=max_collar_bps,
+    )
+    approved = (
+        dry_powder_intact
+        and informed_flow_ok
+        and no_sweep_through
+        and bid_15s_survived
+        and bool(collar["eligible_for_collar_fill"])
+    )
+    return {
+        "approved_dry_powder_collar": approved,
+        "dry_powder_intact": dry_powder_intact,
+        "informed_flow_ok": informed_flow_ok,
+        "bid_survived_15s": no_sweep_through and bid_15s_survived,
+        "collar_fill_px": collar["collar_fill_px"] if approved else None,
+        "spread_15s_bps": collar["spread_15s_bps"],
+        "promotion_track": "PROTECTIVE_FILTER_OR_GOVERNANCE",
+        "standalone_alpha_claim": False,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="SOTA Pre-Registration Power & Queue-Fill Gate")
     parser.add_argument("--trials-n", type=int, default=85)

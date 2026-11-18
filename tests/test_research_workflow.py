@@ -147,3 +147,49 @@ def test_adr0010_two_stage_lit_to_collar_shelf_gate() -> None:
     )
     assert chased["eligible_for_collar_fill"] is False
     assert chased["collar_fill_px"] is None
+
+
+def test_adr0011_h096_dry_powder_15s_bid_survival_and_informed_flow_joint_gate() -> None:
+    from shelf_lock import evaluate_dry_powder_15s_bid_survival_collar_gate
+
+    ok = evaluate_dry_powder_15s_bid_survival_collar_gate(
+        initial_bid_px=99.94,
+        initial_ask_px=100.00,
+        min_lit_roundlot_px_0_15s=99.95,
+        bid_15s_px=99.98,
+        ask_15s_px=100.05,
+        ask_15s_lots=4.0,
+        order_qty_shares=250.0,
+        ofi_entry=0.32,
+        iso_f_buy_share=0.18,
+    )
+    assert ok["approved_dry_powder_collar"] is True
+    assert ok["collar_fill_px"] == 100.05
+
+    swept = evaluate_dry_powder_15s_bid_survival_collar_gate(
+        initial_bid_px=99.94,
+        initial_ask_px=100.00,
+        min_lit_roundlot_px_0_15s=99.88,
+        bid_15s_px=99.95,
+        ask_15s_px=100.02,
+        ask_15s_lots=4.0,
+        order_qty_shares=250.0,
+        ofi_entry=0.35,
+        bjzz_inst_dark_share=0.16,
+    )
+    assert swept["approved_dry_powder_collar"] is False
+    assert swept["bid_survived_15s"] is False
+
+    weak_ofi = evaluate_dry_powder_15s_bid_survival_collar_gate(
+        initial_bid_px=99.94,
+        initial_ask_px=100.00,
+        min_lit_roundlot_px_0_15s=None,
+        bid_15s_px=99.96,
+        ask_15s_px=100.04,
+        ask_15s_lots=4.0,
+        order_qty_shares=250.0,
+        ofi_entry=0.08,
+        iso_f_buy_share=0.0,
+    )
+    assert weak_ofi["approved_dry_powder_collar"] is False
+    assert weak_ofi["informed_flow_ok"] is False
