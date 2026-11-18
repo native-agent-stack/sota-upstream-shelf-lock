@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sota-upstream-shelf-lock"
+version = "1.0.0"
+description = "Immutable 40-char Git SHA upstream shelf lock, MADR 4.0 ADR verifier, and 5-stage Sim->Backtest->Paper->FineTune->Alpaca/IBKR promotion gate for native-agent-stack."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/shelf_lock"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
