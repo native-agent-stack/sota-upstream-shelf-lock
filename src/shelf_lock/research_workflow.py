@@ -456,6 +456,48 @@ def evaluate_dry_powder_15s_bid_survival_collar_gate(
     }
 
 
+def evaluate_abnormal_rvol_tod_shelf_gate(
+    *,
+    observed_cum_vol: float,
+    expected_20d_tod_vol: float,
+    ofi_entry: float,
+    min_rvol_tod: float = 2.20,
+    min_first_sign_rvol_tod: float = 1.65,
+) -> dict[str, object]:
+    """Enforce `ADR-0012` whole-market abnormal-over-normal time-of-day RVOL (`stage1_rvol_tod`)."""
+    import math
+
+    vals = (
+        observed_cum_vol,
+        expected_20d_tod_vol,
+        ofi_entry,
+        min_rvol_tod,
+        min_first_sign_rvol_tod,
+    )
+    if any(isinstance(v, bool) or not math.isfinite(float(v)) for v in vals):
+        raise ValueError("All abnormal RVOL-TOD inputs must be finite real numbers")
+    if (
+        observed_cum_vol < 0.0
+        or expected_20d_tod_vol <= 0.0
+        or min_first_sign_rvol_tod <= 1.0
+        or min_rvol_tod < min_first_sign_rvol_tod
+    ):
+        raise ValueError("Invalid volume or RVOL-TOD threshold bounds")
+
+    rvol_tod = float(observed_cum_vol) / float(expected_20d_tod_vol)
+    purged_size_bias = rvol_tod < min_first_sign_rvol_tod
+    first_sign_ok = rvol_tod >= min_first_sign_rvol_tod and float(ofi_entry) > 0.0
+    early_ignition_ok = rvol_tod >= min_rvol_tod and float(ofi_entry) >= 0.25
+    return {
+        "stage1_rvol_tod": round(rvol_tod, 4),
+        "megacap_normal_rate_size_bias_purged": purged_size_bias,
+        "first_sign_admitted": first_sign_ok,
+        "early_ignition_admitted": early_ignition_ok,
+        "promotion_track": "PROTECTIVE_FILTER_OR_GOVERNANCE",
+        "standalone_alpha_claim": False,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="SOTA Pre-Registration Power & Queue-Fill Gate")
     parser.add_argument("--trials-n", type=int, default=85)

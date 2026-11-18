@@ -193,3 +193,27 @@ def test_adr0011_h096_dry_powder_15s_bid_survival_and_informed_flow_joint_gate()
     )
     assert weak_ofi["approved_dry_powder_collar"] is False
     assert weak_ofi["informed_flow_ok"] is False
+
+
+def test_adr0012_abnormal_rvol_tod_purges_megacap_normal_rate_size_bias() -> None:
+    from shelf_lock import evaluate_abnormal_rvol_tod_shelf_gate
+
+    megacap_normal = evaluate_abnormal_rvol_tod_shelf_gate(
+        observed_cum_vol=10_100_000.0,
+        expected_20d_tod_vol=10_000_000.0,
+        ofi_entry=0.35,
+    )
+    assert megacap_normal["stage1_rvol_tod"] == 1.01
+    assert megacap_normal["megacap_normal_rate_size_bias_purged"] is True
+    assert megacap_normal["first_sign_admitted"] is False
+    assert megacap_normal["early_ignition_admitted"] is False
+
+    true_shock = evaluate_abnormal_rvol_tod_shelf_gate(
+        observed_cum_vol=2_640_000.0,
+        expected_20d_tod_vol=1_000_000.0,
+        ofi_entry=0.32,
+    )
+    assert true_shock["stage1_rvol_tod"] == 2.64
+    assert true_shock["megacap_normal_rate_size_bias_purged"] is False
+    assert true_shock["first_sign_admitted"] is True
+    assert true_shock["early_ignition_admitted"] is True
