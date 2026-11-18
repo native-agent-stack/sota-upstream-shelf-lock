@@ -13,13 +13,73 @@ Primary Upstream Citations (Pinned Shelf):
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import math
-from collections.abc import Sequence
+import pathlib
+import re
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from statistics import NormalDist
 
-from shelf_lock.validator import HLZ_BASE_ALPHA, compute_hlz_t_hurdle
+from shelf_lock.validator import HEX40_RE, HLZ_BASE_ALPHA, compute_hlz_t_hurdle, load_pins_lock
+
+RESEARCH_FEEDS_SCHEMA_VERSION = "sota-research-feeds.v2"
+SIBLING_REPO_AUTHORITY = "PHILOSOPHY_ONLY"
+STUDY_WALL_ISO = "2026-10-15"
+HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
+
+CANONICAL_STRATEGY_ARCHETYPES: tuple[str, ...] = (
+    "PRE_TRAVEL_EARLY_IGNITION",
+    "FIRST_HAND_SEC_EPISODIC_PIVOT",
+    "MEGA_CAP_NEAR_LOSSLESS_ORB",
+    "CLIMAX_VWAP_MEAN_REVERSION",
+)
+
+CANONICAL_RESEARCH_FEEDS_V2: dict[str, dict[str, object]] = {
+    "alpaca_sip": {
+        "window_et": "04:00-20:00 ET Mon-Fri",
+        "upstream": "alpaca-py",
+        "pit_rule": "Nanosecond UTC trade/NBBO alignment; HostPinnedPacedAdapter <=185 req/min; ISO 'F' != odd-lot 'I'",
+    },
+    "alpaca_boats": {
+        "window_et": "20:00-04:00 ET Sun-Fri",
+        "cutover_date": "2026-12-06",
+        "cutover_mode": "23/5 SIP cutover gated by SOTA_ENABLE_DEC6_235_SIP (default 0)",
+        "upstream": "alpaca-py",
+        "pit_rule": "900s stale-print expiry; timestamp guard so BOATS never overwrites newer Premarket SIP",
+    },
+    "alpaca_raw_vs_all_adjustment": {
+        "window_et": "Intraday execution (RAW) vs multi-day historical series (ALL)",
+        "upstream": "alpaca-py",
+        "pit_rule": "Adjustment.RAW for unadjusted fill/NBBO parity; Adjustment.ALL for multi-day return series",
+    },
+    "sec_edgar_acceptance_datetime": {
+        "window_et": "06:00-22:00 ET Mon-Fri SEC EDGAR Atom & submissions",
+        "half_life_minutes": 15,
+        "dilution_block_forms": ("424B2", "424B3", "424B4", "424B5", "S-3", "S-3ASR", "F-3"),
+        "upstream": "edgartools",
+        "pit_rule": "acceptanceDateTime <= as_of_utc with 15m freshness half-life + instant 424B*/S-3 dilution block",
+    },
+    "finra_regsho_cnmsshvol_t1": {
+        "window_et": "Post-EOD T-1 trading-day lag",
+        "lag_trading_days": 1,
+        "upstream": "duckdb",
+        "pit_rule": "Strict CNMSshvol d_tag < target_tag (T-1 lag); zero same-day short-volume lookahead",
+    },
+    "corporate_actions_split_guard": {
+        "window_et": "XNYS pre-open corporate-actions & holiday calendar",
+        "upstream": "exchange_calendars",
+        "pit_rule": "Ex-date split/reverse-split discontinuity quarantine + XNYS holiday/early-close entry pause",
+    },
+    "ibkr_paper_4002_l1": {
+        "window_et": "24/5 outsideRth L1 quote & protective stop lane (:4002 Paper only)",
+        "paper_port": 4002,
+        "forbidden_live_ports": (4001, 7496),
+        "upstream": "ib_async",
+        "pit_rule": "Paper-only gateway on 127.0.0.1:4002 (<=3,000 msg/min); live ports 4001/7496 hard-refused",
+    },
+}
 
 
 @dataclass(frozen=True)
@@ -186,6 +246,100 @@ def simulate_risk_adverse_buy_queue(
         fill_ts_ns=None,
         fill_reason="expired_unfilled",
         remaining_front_queue=round(max(0.0, front_q_qty), 4),
+    )
+
+
+@dataclass(frozen=True)
+class ResearchConvergenceEnvelopeReport:
+    approved: bool
+    schema_version: str
+    sibling_repo_authority: str
+    pinned_upstreams_verified: int
+    power_report: PreRegistrationPowerReport
+    violations: tuple[str, ...]
+
+
+def verify_research_convergence_envelope(
+    *,
+    input_sha256: str,
+    archetype: str,
+    feeds_used: Sequence[str],
+    study_max_date: str,
+    hard_stop_pct: float,
+    cumulative_trials_n: int,
+    distinct_dates: int,
+    daily_sigma_bps: float,
+    risk_adverse_queue_verified: bool = True,
+    sibling_repo_authority: str = SIBLING_REPO_AUTHORITY,
+    upstream_pins: Mapping[str, str] | None = None,
+    repo_root: pathlib.Path | None = None,
+) -> ResearchConvergenceEnvelopeReport:
+    """Unite 18-repo 40-hex upstream pins, 64-hex input SHA-256, 7-feed PIT, MinTRL/MDE, QueueModel & ADR-0022."""
+    violations: list[str] = []
+
+    if not isinstance(input_sha256, str) or not HEX64_RE.fullmatch(input_sha256):
+        violations.append("ADR0004_INVALID_INPUT_SHA256: expected 64-char lowercase hex digest")
+
+    if archetype not in CANONICAL_STRATEGY_ARCHETYPES:
+        violations.append(f"UNKNOWN_STRATEGY_ARCHETYPE: {archetype!r}")
+
+    if not feeds_used:
+        violations.append("EMPTY_DATAFEEDS: at least one canonical sota-research-feeds.v2 feed required")
+    else:
+        unknown_feeds = [f for f in feeds_used if f not in CANONICAL_RESEARCH_FEEDS_V2]
+        if unknown_feeds:
+            violations.append(f"UNSANCTIONED_DATAFEEDS: {unknown_feeds}")
+
+    try:
+        parsed_date = dt.date.fromisoformat(study_max_date)
+        if parsed_date > dt.date.fromisoformat(STUDY_WALL_ISO):
+            violations.append(f"PREWALL_VIOLATION: {study_max_date} > {STUDY_WALL_ISO}")
+    except (TypeError, ValueError):
+        violations.append(f"INVALID_STUDY_MAX_DATE: {study_max_date!r}")
+
+    if (
+        isinstance(hard_stop_pct, bool)
+        or not isinstance(hard_stop_pct, (int, float))
+        or not math.isfinite(float(hard_stop_pct))
+        or not (0.0 < float(hard_stop_pct) <= 2.0)
+    ):
+        violations.append(f"ADR0022_STOP_VIOLATION: hard_stop_pct={hard_stop_pct} outside (0.0, 2.00]")
+
+    if not risk_adverse_queue_verified:
+        violations.append("QUEUE_MODEL_UNVERIFIED: hftbacktest RiskAdverseQueueModel check required")
+
+    if sibling_repo_authority != SIBLING_REPO_AUTHORITY:
+        violations.append(
+            f"SIBLING_AUTHORITY_VIOLATION: expected {SIBLING_REPO_AUTHORITY!r}, got {sibling_repo_authority!r}"
+        )
+
+    lock_doc = load_pins_lock(repo_root)
+    canonical_pin_map = {str(p["name"]): str(p["commit"]) for p in lock_doc.get("upstreamShelfPins", [])}
+    pins_to_check = dict(upstream_pins) if upstream_pins is not None else canonical_pin_map
+    verified_pins = 0
+    if len(pins_to_check) != 18:
+        violations.append(f"UPSTREAM_PIN_COUNT_MISMATCH: expected 18 pins, got {len(pins_to_check)}")
+    for name, sha in sorted(pins_to_check.items()):
+        if not HEX40_RE.fullmatch(str(sha)) or canonical_pin_map.get(name) != str(sha):
+            violations.append(f"UPSTREAM_SHA_DRIFT: {name}={sha}")
+        else:
+            verified_pins += 1
+
+    power_rep = evaluate_preregistration_power_gate(
+        cumulative_trials_n=cumulative_trials_n,
+        distinct_dates=max(1, distinct_dates),
+        daily_sigma_bps=max(1e-6, daily_sigma_bps),
+    )
+    if not power_rep.approved_to_preregister:
+        violations.extend(f"POWER_GATE_REJECTED: {r}" for r in power_rep.rejection_reasons)
+
+    return ResearchConvergenceEnvelopeReport(
+        approved=(len(violations) == 0),
+        schema_version=RESEARCH_FEEDS_SCHEMA_VERSION,
+        sibling_repo_authority=sibling_repo_authority,
+        pinned_upstreams_verified=verified_pins,
+        power_report=power_rep,
+        violations=tuple(violations),
     )
 
 

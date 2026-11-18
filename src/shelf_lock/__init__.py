@@ -1,10 +1,16 @@
 from shelf_lock.research_workflow import (
+    CANONICAL_RESEARCH_FEEDS_V2,
+    CANONICAL_STRATEGY_ARCHETYPES,
+    RESEARCH_FEEDS_SCHEMA_VERSION,
+    SIBLING_REPO_AUTHORITY,
     L1Event,
     PassiveQueueFillOutcome,
     PreRegistrationPowerReport,
+    ResearchConvergenceEnvelopeReport,
     compute_min_trl_fwer,
     evaluate_preregistration_power_gate,
     simulate_risk_adverse_buy_queue,
+    verify_research_convergence_envelope,
 )
 from shelf_lock.validator import (
     PromotionCandidate,
@@ -16,10 +22,15 @@ from shelf_lock.validator import (
 )
 
 __all__ = [
+    "CANONICAL_RESEARCH_FEEDS_V2",
+    "CANONICAL_STRATEGY_ARCHETYPES",
+    "RESEARCH_FEEDS_SCHEMA_VERSION",
+    "SIBLING_REPO_AUTHORITY",
     "L1Event",
     "PassiveQueueFillOutcome",
     "PreRegistrationPowerReport",
     "PromotionCandidate",
+    "ResearchConvergenceEnvelopeReport",
     "compute_hlz_t_hurdle",
     "compute_min_trl_fwer",
     "evaluate_preregistration_power_gate",
@@ -28,4 +39,5 @@ __all__ = [
     "simulate_risk_adverse_buy_queue",
     "validate_pins_lock",
     "validate_promotion_candidate",
+    "verify_research_convergence_envelope",
 ]

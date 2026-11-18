@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+import hashlib
+
 from shelf_lock import (
+    CANONICAL_RESEARCH_FEEDS_V2,
+    CANONICAL_STRATEGY_ARCHETYPES,
+    SIBLING_REPO_AUTHORITY,
     L1Event,
     compute_min_trl_fwer,
     evaluate_preregistration_power_gate,
     simulate_risk_adverse_buy_queue,
+    verify_research_convergence_envelope,
 )
 
 
@@ -73,3 +79,47 @@ def test_risk_adverse_queue_requires_depletion_or_trade_through() -> None:
     assert through.filled is True
     assert through.fill_reason == "trade_through"
     assert through.fill_price == 10.00
+
+
+def test_research_convergence_envelope_unites_18_pins_7_feeds_mintrl_queue_and_stop() -> None:
+    assert len(CANONICAL_RESEARCH_FEEDS_V2) == 7
+    assert CANONICAL_RESEARCH_FEEDS_V2["alpaca_boats"]["cutover_date"] == "2026-12-06"
+    assert len(CANONICAL_STRATEGY_ARCHETYPES) == 4
+    assert SIBLING_REPO_AUTHORITY == "PHILOSOPHY_ONLY"
+
+    digest = hashlib.sha256(b"canonical-prewall-study-v2").hexdigest()
+    ok_env = verify_research_convergence_envelope(
+        input_sha256=digest,
+        archetype="PRE_TRAVEL_EARLY_IGNITION",
+        feeds_used=(
+            "alpaca_sip",
+            "alpaca_boats",
+            "sec_edgar_acceptance_datetime",
+            "finra_regsho_cnmsshvol_t1",
+        ),
+        study_max_date="2026-10-15",
+        hard_stop_pct=1.75,
+        cumulative_trials_n=85,
+        distinct_dates=600,
+        daily_sigma_bps=45.0,
+        risk_adverse_queue_verified=True,
+    )
+    assert ok_env.approved is True
+    assert ok_env.pinned_upstreams_verified == 18
+    assert ok_env.violations == ()
+
+    bad_env = verify_research_convergence_envelope(
+        input_sha256="bad",
+        archetype="UNKNOWN",
+        feeds_used=("unsanctioned_feed",),
+        study_max_date="2026-10-16",
+        hard_stop_pct=2.50,
+        cumulative_trials_n=85,
+        distinct_dates=40,
+        daily_sigma_bps=45.0,
+        risk_adverse_queue_verified=False,
+        sibling_repo_authority="DIRECT_IMPORT",
+        upstream_pins={"alpaca-py": "bad_sha"},
+    )
+    assert bad_env.approved is False
+    assert len(bad_env.violations) >= 8
