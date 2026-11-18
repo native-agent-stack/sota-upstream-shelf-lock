@@ -123,3 +123,28 @@ def test_research_convergence_envelope_unites_18_pins_7_feeds_mintrl_queue_and_s
     )
     assert bad_env.approved is False
     assert len(bad_env.violations) >= 8
+
+
+def test_adr0010_two_stage_lit_to_collar_shelf_gate() -> None:
+    from shelf_lock import evaluate_two_stage_lit_to_collar_shelf_gate
+
+    ok = evaluate_two_stage_lit_to_collar_shelf_gate(
+        initial_ask_px=100.00,
+        ask_15s_px=100.07,
+        bid_15s_px=100.00,
+        ask_15s_lots=3.0,
+        order_qty_shares=250.0,
+    )
+    assert ok["eligible_for_collar_fill"] is True
+    assert ok["collar_fill_px"] == 100.07
+
+    chased = evaluate_two_stage_lit_to_collar_shelf_gate(
+        initial_ask_px=100.00,
+        ask_15s_px=100.18,
+        bid_15s_px=100.12,
+        ask_15s_lots=5.0,
+        order_qty_shares=250.0,
+    )
+    assert chased["eligible_for_collar_fill"] is False
+    assert chased["collar_fill_px"] is None
+

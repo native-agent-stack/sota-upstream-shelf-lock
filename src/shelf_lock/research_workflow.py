@@ -343,6 +343,43 @@ def verify_research_convergence_envelope(
     )
 
 
+def evaluate_two_stage_lit_to_collar_shelf_gate(
+    *,
+    initial_ask_px: float,
+    ask_15s_px: float,
+    bid_15s_px: float,
+    ask_15s_lots: float,
+    order_qty_shares: float,
+    max_collar_bps: float = 10.0,
+) -> dict[str, object]:
+    """Validate Stage-2 `15s` lit-bid -> `<= 10.0 bps` collar escalation (`ADR-0010` / `H095`)."""
+    vals = (initial_ask_px, ask_15s_px, bid_15s_px, ask_15s_lots, order_qty_shares, max_collar_bps)
+    if any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(float(v)) for v in vals):
+        raise ValueError("All Stage-2 collar gate inputs must be finite real numbers")
+    if initial_ask_px <= 0.0 or bid_15s_px <= 0.0 or ask_15s_px < bid_15s_px or order_qty_shares <= 0.0:
+        raise ValueError("Invalid prices or order_qty_shares for Stage-2 collar gate")
+    if not (0.0 < max_collar_bps <= 10.0):
+        raise ValueError("max_collar_bps must lie in (0.0, 10.0]")
+
+    mid_15s = 0.5 * (bid_15s_px + ask_15s_px)
+    spread_15s_bps = ((ask_15s_px - bid_15s_px) / mid_15s) * 10_000.0
+    collar_ceiling_px = initial_ask_px * (1.0 + max_collar_bps / 10_000.0)
+    displayed_shares = ask_15s_lots * 100.0
+    eligible = (
+        ask_15s_px <= collar_ceiling_px + 1e-9
+        and 0.0 < spread_15s_bps <= max_collar_bps
+        and displayed_shares >= order_qty_shares
+    )
+    return {
+        "eligible_for_collar_fill": eligible,
+        "collar_fill_px": round(ask_15s_px, 4) if eligible else None,
+        "collar_ceiling_px": round(collar_ceiling_px, 4),
+        "spread_15s_bps": round(spread_15s_bps, 4),
+        "displayed_ask_shares": round(displayed_shares, 2),
+    }
+
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="SOTA Pre-Registration Power & Queue-Fill Gate")
     parser.add_argument("--trials-n", type=int, default=85)

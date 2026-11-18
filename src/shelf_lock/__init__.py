@@ -9,6 +9,7 @@ from shelf_lock.research_workflow import (
     ResearchConvergenceEnvelopeReport,
     compute_min_trl_fwer,
     evaluate_preregistration_power_gate,
+    evaluate_two_stage_lit_to_collar_shelf_gate,
     simulate_risk_adverse_buy_queue,
     verify_research_convergence_envelope,
 )
@@ -34,6 +35,7 @@ __all__ = [
     "compute_hlz_t_hurdle",
     "compute_min_trl_fwer",
     "evaluate_preregistration_power_gate",
+    "evaluate_two_stage_lit_to_collar_shelf_gate",
     "load_pins_lock",
     "scan_repo_privacy_hygiene",
     "simulate_risk_adverse_buy_queue",
