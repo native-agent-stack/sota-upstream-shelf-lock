@@ -1,0 +1,12 @@
+# Orca (https://github.com/stablyai/orca) dual-machine workspace recipe for sota-upstream-shelf-lock
+# Supports portable Apple M5 Max (macOS) and paired stationary Noesis (Windows + WSL2 Noesis-Carbon).
+scripts:
+  setup: |
+    uv sync --locked --extra dev
+setupAgentStartupPolicy: wait-for-setup
+defaultTabs:
+  - title: Agent
+  - title: 18-Clone Shelf Lock & MinTRL Gate
+    command: uv run --extra dev python -m shelf_lock.validator --verify-no-leaks && uv run --extra dev python scripts/architecture_catalog.py --check
+  - title: Pytest
+    command: uv run --extra dev pytest -q
