@@ -15,6 +15,14 @@ from shelf_lock.research_workflow import (
     simulate_risk_adverse_buy_queue,
     verify_research_convergence_envelope,
 )
+from shelf_lock.starred_and_beyond_matrix import (
+    BEYOND_STARRED_FRONTIER_SOTA_ANCHORS,
+    CONVERGENCE_MATRIX_SCHEMA_VERSION,
+    FINALIZED_12_RANKING_FEED_IDS,
+    STARRED_413_RESEARCH_ANCHORS,
+    build_sota_research_convergence_matrix_manifest,
+    verify_bitemporal_pit_event,
+)
 from shelf_lock.validator import (
     PromotionCandidate,
     compute_hlz_t_hurdle,
@@ -25,15 +33,20 @@ from shelf_lock.validator import (
 )
 
 __all__ = [
+    "BEYOND_STARRED_FRONTIER_SOTA_ANCHORS",
     "CANONICAL_RESEARCH_FEEDS_V2",
     "CANONICAL_STRATEGY_ARCHETYPES",
+    "CONVERGENCE_MATRIX_SCHEMA_VERSION",
+    "FINALIZED_12_RANKING_FEED_IDS",
     "RESEARCH_FEEDS_SCHEMA_VERSION",
     "SIBLING_REPO_AUTHORITY",
+    "STARRED_413_RESEARCH_ANCHORS",
     "L1Event",
     "PassiveQueueFillOutcome",
     "PreRegistrationPowerReport",
     "PromotionCandidate",
     "ResearchConvergenceEnvelopeReport",
+    "build_sota_research_convergence_matrix_manifest",
     "compute_hlz_t_hurdle",
     "compute_min_trl_fwer",
     "evaluate_abnormal_rvol_tod_shelf_gate",
@@ -45,5 +58,6 @@ __all__ = [
     "simulate_risk_adverse_buy_queue",
     "validate_pins_lock",
     "validate_promotion_candidate",
+    "verify_bitemporal_pit_event",
     "verify_research_convergence_envelope",
 ]

@@ -217,3 +217,35 @@ def test_adr0012_abnormal_rvol_tod_purges_megacap_normal_rate_size_bias() -> Non
     assert true_shock["megacap_normal_rate_size_bias_purged"] is False
     assert true_shock["first_sign_admitted"] is True
     assert true_shock["early_ignition_admitted"] is True
+
+
+def test_adr0013_starred_413_and_beyond_sota_matrix_and_bitemporal_pit() -> None:
+    from shelf_lock import (
+        BEYOND_STARRED_FRONTIER_SOTA_ANCHORS,
+        CONVERGENCE_MATRIX_SCHEMA_VERSION,
+        FINALIZED_12_RANKING_FEED_IDS,
+        STARRED_413_RESEARCH_ANCHORS,
+        build_sota_research_convergence_matrix_manifest,
+        verify_bitemporal_pit_event,
+    )
+
+    assert CONVERGENCE_MATRIX_SCHEMA_VERSION == "sota-research-convergence-matrix.v3.10"
+    assert len(FINALIZED_12_RANKING_FEED_IDS) == 12
+    assert "microsoft/qlib" in STARRED_413_RESEARCH_ANCHORS
+    assert "microsoft/RD-Agent" in BEYOND_STARRED_FRONTIER_SOTA_ANCHORS
+    assert "databento/databento-python" in BEYOND_STARRED_FRONTIER_SOTA_ANCHORS
+
+    manifest = build_sota_research_convergence_matrix_manifest()
+    assert manifest["immutable_core_pins_count"] == 18
+    assert manifest["finalized_symbol_ranking_feeds_count"] == 12
+    assert manifest["sibling_repo_authority"] == "PHILOSOPHY_ONLY"
+    assert all(meta["authority"] == "PHILOSOPHY_ONLY" for meta in manifest["starred_413_anchors"].values())
+
+    ok_pit, reasons_ok = verify_bitemporal_pit_event(1000, 1050, 1100)
+    assert ok_pit is True and reasons_ok == []
+
+    bad_recv, reasons_recv = verify_bitemporal_pit_event(1200, 1100, 1300)
+    assert bad_recv is False and any("BITEMPORAL_CLOCK_SKEW_LOOKAHEAD" in r for r in reasons_recv)
+
+    bad_dec, reasons_dec = verify_bitemporal_pit_event(1000, 1400, 1300)
+    assert bad_dec is False and any("BITEMPORAL_DECISION_LOOKAHEAD" in r for r in reasons_dec)
