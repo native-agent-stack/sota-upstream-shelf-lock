@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sota-upstream-shelf-lock"
-version = "1.0.0"
+version = "2.0.0"
 description = "Immutable 40-char Git SHA upstream shelf lock, MADR 4.0 ADR verifier, and 5-stage Sim->Backtest->Paper->FineTune->Alpaca/IBKR promotion gate for native-agent-stack."
 readme = "README.md"
 requires-python = ">=3.11"
