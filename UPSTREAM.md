@@ -9,7 +9,7 @@ Repository: `https://github.com/native-agent-stack/sota-upstream-shelf-lock` · 
 - **Cross-Family Adversarial Critic (`Yeachan-Heo/oh-my-codex` `v0.22.10` + `max-sixty/worktrunk`):** `gpt-6.2-astra` `omx exec` / `omx mission` in isolated git worktrees.
 - **8-Slot Lifecycle & Peer Spine (`ComposioHQ/agent-orchestrator` + `aannoo/hcom` + `steveyegge/beads` + `omniroute`):** 8-slot cross-vendor `AO` convergence, SQLite WAL `peer_bus.db`, `hcom` PTY push & `bd` DAG tracking.
 - **Schema-Typed Python DAGs (`google-antigravity/antigravity-sdk-python` `v1.5.10`):** `16` `run_workflow` Python DAGs (`gemini-4-carbon-high` 1M context) + Native Swarm `workspace:share`.
-- **Non-GPT Polyglot Graph Runtime (`code-yeongyu/oh-my-openagent` `v5.1.75`):** `kimi-k3.1-pro` `Hephaestus` (`forbids_gpt_on_hephaestus=true`).
+- **Non-GPT Polyglot Graph Runtime (`code-yeongyu/oh-my-openagent` `v5.1.75`):** `claude-sonnet-5-5` / `deepseek-v4.1-flash` `Hephaestus` (`forbids_gpt_on_hephaestus=true`).
 - **Role-Selected Thinking Workers (`can1357/oh-my-pi` `v18.22.0` + `block/goose` `v1.59.2`):** `gpt-6.2-sol` (`--thinking=high`) explicit workers & AAIF MCP autonomous recipes.
 - **Open-Weights Pre-Wall Evaluator (`native-agent-stack/dsh-sota-harness` `v0.2.2-rc.2`):** `deepseek-v4.1-flash` (`deepseek-flash`, 552B MoE 8B/16B active, 1M context) 10-layer offline probes & `<= 2026-10-15` pre-wall batch evaluator.
 
