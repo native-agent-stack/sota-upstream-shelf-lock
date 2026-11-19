@@ -18,7 +18,7 @@ Repository: `https://github.com/native-agent-stack/sota-upstream-shelf-lock` · 
 - `alpacahq/alpaca-py` @ `c42add7c0a7026e2ead3ed64e76f4def2b99fda4` (`DF1` SIP, `DF2` BOATS / Dec-6 `23/5`)
 - `alpacahq/alpaca-mcp-server` @ `63cc4278d87b31f3ed4efcfaa55624095c6d7be8`
 - `nautechsystems/nautilus_trader` @ `da6b57aefdd62b44f675e434ffcfefca7f4025dd` (`Stage 1` / `:4002` simulation)
-- `HighwindCapital/nautilus-alpaca` @ `59685d56631b981018a189b5ced1a7000a50bfbd`
+- `gmatrunich/nautilus-alpaca` @ `59685d56631b981018a189b5ced1a7000a50bfbd`
 - `pola-rs/polars` @ `7f902bd3ffd27ff82d14278a09a295ff2f7aed92` (`DF3` `RAW`-vs-`ALL`, `64`-thread `Noesis-Carbon` lake)
 - `duckdb/duckdb` @ `d54cbbe3df17e8e5ce68312f483b4155836112aa` (`DF7` FINRA RegSHO `T-1`)
 - `dgunning/edgartools` @ `574c2bd15f6c629bceef03b6550ea8ac8abf3473` (`DF5` SEC `acceptanceDateTime`, `DF6` XBRL public float)
