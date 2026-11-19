@@ -5,6 +5,23 @@
   "beyondStarredTotal": 8,
   "authority": "PHILOSOPHY_ONLY",
   "immutableCorePinsPreserved": 18,
+  "landscapeReleaseAudit20261119": {
+    "auditedAtUtc": "2026-11-19T15:30:00Z",
+    "authority": "PHILOSOPHY_ONLY_AND_HOST_VERSIONS",
+    "entries": {
+      "stablyai/orca": {"installed": "1.4.263", "latest": "v1.4.264", "notes": "1.4.263 active across Win32 & Mac; v1.4.264 released 2026-11-19 desktop chat-workspace browser fix"},
+      "anthropics/claude-code": {"installed": "2.1.328", "latest": "v2.1.328", "notes": "Matched live"},
+      "google-antigravity": {"installed": "1.5.12", "latest": "1.5.12", "notes": "Matched live"},
+      "can1357/oh-my-pi": {"pinned": "18.22.0", "latest": "v19.0.0", "notes": "Evaluated"},
+      "code-yeongyu/oh-my-openagent": {"pinned": "5.1.75", "latest": "v5.1.79", "notes": "Evaluated"},
+      "openai/codex": {"pinned": "0.169.0", "latest": "rust-v0.170.0", "notes": "Evaluated"},
+      "Yeachan-Heo/oh-my-codex": {"pinned": "0.22.10", "latest": "v0.22.11", "notes": "Evaluated"},
+      "backnotprop/plannotator": {"pinned": "0.28.67", "latest": "v0.29.0", "notes": "Evaluated"},
+      "mvschwarz/openrig": {"pinned": "0.7.18", "latest": "v0.7.19", "notes": "Evaluated"},
+      "NVIDIA/SkillEvaluator": {"pinned": "v1.0.1", "latest": "v1.0.1", "notes": "Matched live"},
+      "astral-sh/uv": {"pinned": "0.13.7", "latest": "0.13.9", "notes": "Evaluated"}
+    }
+  },
   "redteam_and_security": [
     {
       "repo": "elementalsouls/Claude-BugHunter",

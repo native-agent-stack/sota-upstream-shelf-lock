@@ -132,3 +132,21 @@ def test_starred_convergence_catalog_v3108() -> None:
         "stanfordnlp/dspy",
         "microsoft/SkillOpt",
     } <= beyond_repos
+
+
+def test_landscape_release_audit_20261119_and_immutable_pins() -> None:
+    root = pathlib.Path(__file__).resolve().parents[1]
+    catalog = json.loads((root / "STARRED_CONVERGENCE_CATALOG.json").read_text(encoding="utf-8"))
+    pins_doc = load_pins_lock(root)
+
+    assert len(pins_doc["upstreamShelfPins"]) == 18
+    audit = catalog["landscapeReleaseAudit20261119"]
+    assert audit["authority"] == "PHILOSOPHY_ONLY_AND_HOST_VERSIONS"
+    entries = audit["entries"]
+    assert entries["stablyai/orca"]["installed"] == "1.4.263"
+    assert entries["stablyai/orca"]["latest"] == "v1.4.264"
+    assert entries["anthropics/claude-code"]["installed"] == "2.1.328"
+    assert entries["google-antigravity"]["installed"] == "1.5.12"
+    assert entries["can1357/oh-my-pi"]["latest"] == "v19.0.0"
+    assert entries["code-yeongyu/oh-my-openagent"]["latest"] == "v5.1.79"
+    assert entries["openai/codex"]["latest"] == "rust-v0.170.0"
