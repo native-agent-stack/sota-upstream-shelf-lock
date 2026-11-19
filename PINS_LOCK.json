@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "org": "native-agent-stack",
-  "verifiedDate": "2026-11-18",
+  "verifiedDate": "2026-11-19",
   "invariants": {
     "studyWallDate": "2026-10-15",
     "maxProtectiveStopPct": 2.0,

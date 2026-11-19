@@ -1,0 +1,225 @@
+{
+  "schemaVersion": "sota-starred-convergence.v3.10.8",
+  "verifiedDate": "2026-11-19",
+  "ownerStarredTotalAudited": 415,
+  "beyondStarredTotal": 8,
+  "authority": "PHILOSOPHY_ONLY",
+  "immutableCorePinsPreserved": 18,
+  "redteam_and_security": [
+    {
+      "repo": "elementalsouls/Claude-BugHunter",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Adversarial multi-phase security bug-hunting across 24 vulnerability classes and trading firewall invariants"
+    },
+    {
+      "repo": "cloudflare/security-audit-skill",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Two-pass self-refuting vulnerability confirmation eliminating false positives"
+    },
+    {
+      "repo": "NVIDIA/OpenShell",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Fail-closed sandbox execution boundaries and secret/credential deny rules"
+    },
+    {
+      "repo": "trailofbits/skills",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Dimensional unit consistency, IEEE-754 floating-point safety, and Hypothesis property invariants"
+    },
+    {
+      "repo": "morluto/rea",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Red-team execution auditing and adversarial boundary stress checks"
+    }
+  ],
+  "skill_eval_and_agent_quality": [
+    {
+      "repo": "NVIDIA/SkillEvaluator",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "4-tier skill quality, security hygiene, 8-runtime parity, and semantic-overlap scoring"
+    },
+    {
+      "repo": "parallel-web/parallel-search-evals",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Empirical recall and factuality benchmark for research retrieval"
+    },
+    {
+      "repo": "Nutlope/hallmark",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "High-craft typography and institutional UI anti-slop evaluation"
+    },
+    {
+      "repo": "meta/astryx",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Structured vector and visual diagram quality discipline"
+    },
+    {
+      "repo": "NousResearch/hermes-agent-self-evolution",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "GEPA reflective evolutionary prompt and skill optimization"
+    }
+  ],
+  "multi_runtime_orchestration_and_loops": [
+    {
+      "repo": "Tencent/LoopForge",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Scripted agent delivery loop with explicit human trust gates"
+    },
+    {
+      "repo": "backnotprop/plannotator",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Interactive specification review and human-in-the-loop plan checkpoints"
+    },
+    {
+      "repo": "rlaope/oh-my-hermes",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Cross-vendor coworker orchestration and multi-agent coordination"
+    },
+    {
+      "repo": "alvinunreal/oh-my-opencode-slim",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Lean OpenCode routing keeping Hephaestus strictly non-GPT"
+    },
+    {
+      "repo": "mvschwarz/openrig",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Cross-vendor agent rig coordination and reproducible task graphs"
+    },
+    {
+      "repo": "stablyai/orca",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Isolated git worktree fleet, dual-machine automations, and lane hub supervision"
+    },
+    {
+      "repo": "Yeachan-Heo/oh-my-claudecode",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "OMC runtime v2 multi-session orchestration and stop callbacks"
+    },
+    {
+      "repo": "Yeachan-Heo/oh-my-codex",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "OMX mission/exec non-interactive cross-family adversarial critique"
+    },
+    {
+      "repo": "code-yeongyu/oh-my-openagent",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Non-GPT Hephaestus structured AST and multi-file refactoring"
+    },
+    {
+      "repo": "can1357/oh-my-pi",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Role-selected thinking-effort workers across agent tasks"
+    },
+    {
+      "repo": "deepseek-ai/deepseek-harness",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "10-layer plugin harness and pre-wall batch evaluation"
+    },
+    {
+      "repo": "aannoo/hcom",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Cross-terminal live wakeup and agent messaging bus"
+    },
+    {
+      "repo": "gastownhall/beads",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Git-backed dependency task graph tracking across convergence waves"
+    }
+  ],
+  "ontology_search_and_context": [
+    {
+      "repo": "NVIDIA/auto-ontology",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Automated ontology extraction and graph-structured reasoning"
+    },
+    {
+      "repo": "xerj-org/xerj",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Fast Rust codebase, document, and log indexing for sub-millisecond retrieval"
+    },
+    {
+      "repo": "opendatalab/MinerU",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Structured PDF and scientific literature extraction for PIT research"
+    },
+    {
+      "repo": "DeusData/codebase-memory-mcp",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Persistent 66-language symbol and call-chain impact graph over MCP"
+    },
+    {
+      "repo": "ranxianglei/billion-context",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Large-context partitioning and selective symbol loading"
+    }
+  ],
+  "quant_trading_and_microstructure": [
+    {
+      "repo": "microsoft/qlib",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Point-in-time quantitative research pipeline and cross-sectional alpha evaluation"
+    },
+    {
+      "repo": "openbq-org/OpenBB",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Multi-source financial research terminal and fundamental catalyst aggregation"
+    },
+    {
+      "repo": "tradermonty/claude-trading-skills",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Momentum, VCP, PEAD, breadth, and market-top/FTD tactical screeners"
+    },
+    {
+      "repo": "TraderAlice/OpenAlice",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Paper-first multi-venue execution guardrails and position risk framing"
+    },
+    {
+      "repo": "longbridge/longbridge-terminal",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Low-latency market microstructure and orderbook inspection workflow"
+    }
+  ],
+  "beyond_starred_sota_additions": [
+    {
+      "repo": "microsoft/RD-Agent",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Alternating Factor-Hypothesis and Model-Hypothesis evolutionary Co-STEER loop"
+    },
+    {
+      "repo": "databento/databento-python",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Strict bitemporal nanosecond PIT ordering (ts_event_ns <= ts_recv_ns <= decision_ns)"
+    },
+    {
+      "repo": "unit8co/darts",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Conformal time-series prediction intervals and multi-horizon evaluation"
+    },
+    {
+      "repo": "Nixtla/statsforecast",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Zero-leakage fast statistical baseline hurdles for factor comparison"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "MIPROv2 and GEPA declarative prompt-program optimization"
+    },
+    {
+      "repo": "adia-lab-19-mintrl",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "ADIA Lab #19 finite-sample MinTRL and minimum detectable edge pre-registration gate"
+    },
+    {
+      "repo": "mlfinlab-triple-barrier",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Triple-barrier labeling, meta-labeling, and purged combinatorial validation"
+    },
+    {
+      "repo": "microsoft/SkillOpt",
+      "authority": "PHILOSOPHY_ONLY",
+      "role": "Trajectory-friction mining converting agent errors into canonical SKILL.md upgrades"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import pathlib
 import subprocess
 import sys
@@ -76,3 +77,58 @@ def test_adr_catalog_zero_drift_and_privacy_hygiene() -> None:
     )
     assert res.returncode == 0, res.stdout + res.stderr
     assert scan_repo_privacy_hygiene(REPO_ROOT) == []
+
+
+def test_starred_convergence_catalog_v3108() -> None:
+    root = pathlib.Path(__file__).resolve().parents[1]
+    catalog = json.loads((root / "STARRED_CONVERGENCE_CATALOG.json").read_text(encoding="utf-8"))
+    pins_doc = load_pins_lock(root)
+
+    assert catalog["schemaVersion"] == "sota-starred-convergence.v3.10.8"
+    assert catalog["verifiedDate"] == "2026-11-19"
+    assert catalog["ownerStarredTotalAudited"] == 415
+    assert catalog["beyondStarredTotal"] == 8
+    assert catalog["authority"] == "PHILOSOPHY_ONLY"
+    assert catalog["immutableCorePinsPreserved"] == len(pins_doc["upstreamShelfPins"]) == 18
+
+    redteam_repos = {item["repo"] for item in catalog["redteam_and_security"]}
+    assert {
+        "elementalsouls/Claude-BugHunter",
+        "cloudflare/security-audit-skill",
+        "NVIDIA/OpenShell",
+        "trailofbits/skills",
+        "morluto/rea",
+    } <= redteam_repos
+
+    eval_repos = {item["repo"] for item in catalog["skill_eval_and_agent_quality"]}
+    assert {"NVIDIA/SkillEvaluator", "Nutlope/hallmark", "meta/astryx"} <= eval_repos
+
+    orch_repos = {item["repo"] for item in catalog["multi_runtime_orchestration_and_loops"]}
+    assert {
+        "Tencent/LoopForge",
+        "backnotprop/plannotator",
+        "rlaope/oh-my-hermes",
+        "alvinunreal/oh-my-opencode-slim",
+        "mvschwarz/openrig",
+    } <= orch_repos
+
+    ontology_repos = {item["repo"] for item in catalog["ontology_search_and_context"]}
+    assert {"NVIDIA/auto-ontology", "xerj-org/xerj", "opendatalab/MinerU"} <= ontology_repos
+
+    quant_repos = {item["repo"] for item in catalog["quant_trading_and_microstructure"]}
+    assert {
+        "microsoft/qlib",
+        "openbq-org/OpenBB",
+        "tradermonty/claude-trading-skills",
+        "TraderAlice/OpenAlice",
+    } <= quant_repos
+
+    beyond = catalog["beyond_starred_sota_additions"]
+    assert len(beyond) == 8
+    beyond_repos = {item["repo"] for item in beyond}
+    assert {
+        "microsoft/RD-Agent",
+        "databento/databento-python",
+        "stanfordnlp/dspy",
+        "microsoft/SkillOpt",
+    } <= beyond_repos

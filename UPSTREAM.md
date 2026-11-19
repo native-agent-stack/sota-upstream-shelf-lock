@@ -1,10 +1,10 @@
-# Upstream SOTA Frameworks & 18-Pin Quantitative Shelf Lineage (`v3.10.6`)
+# Upstream SOTA Frameworks & 18-Pin Quantitative Shelf Lineage (`v3.10.8`)
 
-Repository: `https://github.com/native-agent-stack/sota-upstream-shelf-lock` · Plane & Lane: `H2_UPSTREAM_40SHA_SHELF_LOCK` · DataFeed Contract: `sota-ranking-datafeeds.v3.10` (`DF1..DF12` + `DF1..DF9` compat) · Canonical Skills: `57` · Canonical Workflows: `20`.
+Repository: `https://github.com/native-agent-stack/sota-upstream-shelf-lock` · Plane & Lane: `H2_UPSTREAM_40SHA_SHELF_LOCK` · DataFeed Contract: `sota-ranking-datafeeds.v3.10` (`DF1..DF12` + `DF1..DF9` compat) · Canonical Skills: `60` · Canonical Workflows: `21` · Starred Convergence: `415` starred + `8` beyond-starred (`STARRED_CONVERGENCE_CATALOG.json`).
 
-## 1. Multi-Model Runtime Workers & Active Orchestration Stack (`v3.10.6`, Zero Stale / Zero Kimi; `goose` & `grok` Retired)
+## 1. Multi-Model Runtime Workers & Active Orchestration Stack (`v3.10.8`, Zero Stale / Zero Kimi; `goose` & `grok` Retired)
 
-- **Cross-Machine Supervisor (`stablyai/orca` `v1.4.261`):** Symmetric `:6770` `Mac M5 Max (100.93.211.101) <-> Noesis (100.110.115.22)` E2EE mesh, `sota-orca-lane-hub.v2` `trading-lanes` / `harness-lanes` folder hubs, `10/10` canonical lane leads, and single-broker-host firewall (`singleActiveBrokerHostOnly = true`).
+- **Cross-Machine Supervisor (`stablyai/orca` `v1.4.263`):** Symmetric `:6770` `Mac M5 Max (100.93.211.101) <-> Noesis (100.110.115.22)` E2EE mesh, `sota-orca-lane-hub.v2` `trading-lanes` / `harness-lanes` folder hubs, `10/10` canonical lane leads, `15/15` dual-machine SOTA automations, and single-broker-host firewall (`singleActiveBrokerHostOnly = true`).
 - **Sovereign Lead Orchestrator (`Yeachan-Heo/oh-my-claudecode` `v5.8.6` compiled dist; upstream release `v5.8.4`):** `claude-fable-5-2` (`xhigh`, `OMC_RUNTIME_V2=1`, `oneModelPerConversation=true`) + `claude-opus-5-5` (`high`) + `claude-sonnet-5-5` (`high`, `OMC_MODEL_LOW=claude-sonnet-5-5`).
 - **Cross-Family Adversarial Critic (`Yeachan-Heo/oh-my-codex` `v0.22.10` pinned / `v0.22.11` upstream + `max-sixty/worktrunk`):** `gpt-6.2-astra` (`xhigh` critic) & `gpt-6.2-sol` (`high` implementation/pytest) in isolated git worktrees.
 - **8-Slot Lifecycle & Peer Spine (`ComposioHQ/agent-orchestrator` + `aannoo/hcom` + `steveyegge/beads` + `omniroute`):** 8-slot cross-vendor `AO` convergence, SQLite WAL `peer_bus.db`, `hcom` PTY push & `bd` DAG tracking.
