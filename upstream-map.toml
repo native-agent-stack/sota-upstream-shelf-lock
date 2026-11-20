@@ -1,0 +1,31 @@
+# Every tracked implementation file maps to a pinned SOTA upstream in UPSTREAM.md (`install`, `integrate`, or `build-on`).
+# Enforced fail-closed by `scripts/merge_gate.py` and `tests/test_adr0023_hard_upstream_rule.py`.
+
+[shelf_pins]
+"alpaca-py" = "c42add7c0a7026e2ead3ed64e76f4def2b99fda4"
+"alpaca-mcp-server" = "63cc4278d87b31f3ed4efcfaa55624095c6d7be8"
+"nautilus_trader" = "da6b57aefdd62b44f675e434ffcfefca7f4025dd"
+"nautilus-alpaca" = "59685d56631b981018a189b5ced1a7000a50bfbd"
+"polars" = "7f902bd3ffd27ff82d14278a09a295ff2f7aed92"
+"duckdb" = "d54cbbe3df17e8e5ce68312f483b4155836112aa"
+"edgartools" = "574c2bd15f6c629bceef03b6550ea8ac8abf3473"
+"ml4t-diagnostic" = "19e76072e64a18c9ba56130e4a7bcc0bc871f57e"
+"skfolio" = "90e3fb907fab39d244d899f3caf4e9676889309c"
+"hftbacktest" = "5f3ec40b2afb764e0fea112f941ed85523ef4e88"
+"ib_async" = "ab629f34c1823ea4c1542f32f07377208a86bdfd"
+"perspective" = "0264ec13cd28ef4a2a136c8ef021c3c112bc8990"
+"lightweight-charts" = "c29c51e1e5bc61981da5832c97797cb8283d120f"
+"quantstats" = "d1a214fb906e76f974f45cdccf923b601c67a756"
+"vectorbt" = "a52a984b631624bb9daf41cb19f532fe559cf0ef"
+"pandera" = "02b375ab43f39f8c5c5108695c1791fa04f99a26"
+"exchange_calendars" = "dbe38b1f6887434bbdd1a7d2df6ff8f1742a048a"
+"statsmodels" = "278ff9950636cdd4939b4055e339a8e681d79cab"
+
+[areas]
+"src/shelf_lock/__init__.py" = { upstream = "ml4t-diagnostic", how = "integrate", feature = "package export namespace for 18-pin shelf lock and promotion validator", why = "expose shelf-lock gates with zero transitive runtime bloat" }
+"src/shelf_lock/validator.py" = { upstream = "ml4t-diagnostic", how = "build-on", feature = "PINS_LOCK.json 40-char SHA verification, HLZ t*(N) hurdle, and 5-stage promotion invariants", why = "enforce immutable 18-pin provenance and paper-only ADR-0022 stop gates across all org repos" }
+"src/shelf_lock/research_workflow.py" = { upstream = "hftbacktest", how = "build-on", feature = "ADIA Lab #19 MinTRL/MDE power gate, RiskAdverseQueueModel queue depletion parity, and 18-pin research workflow", why = "gate pre-registration statistical power and passive queue realism before consuming HLZ trials" }
+"src/shelf_lock/starred_and_beyond_matrix.py" = { upstream = "nautilus_trader", how = "build-on", feature = "415+ starred and beyond-starred SOTA catalog, 14-layer convergence schema, and quality-first technical filter", why = "maintain single canonical SOTA upstream catalog with SHA-256 verification" }
+"src/shelf_lock/hard_upstream_rule.py" = { upstream = "nautilus_trader", how = "build-on", feature = "Universal ecosystem-wide upstream-map.toml, UPSTREAM.md, ADR-evidence, sealed-manifest, and 18-pin shelf enforcer (ADR-0023)", why = "guarantee zero orphan code, zero bespoke sim/strategy escape hatches, and verified evidence on every ADR and manifest" }
+"scripts/architecture_catalog.py" = { upstream = "orca", how = "build-on", feature = "Zero-drift MADR 4.0 docs/adr/CATALOG.md generator and CI verifier", why = "keep every ADR catalog synchronized automatically on every commit and PR" }
+"scripts/merge_gate.py" = { upstream = "nautilus_trader", how = "build-on", feature = "Fail-closed repo merge gate invoking hard_upstream_rule, PINS_LOCK validator, and MADR 4.0 catalog check", why = "block any unmapped file, missing ADR evidence, shelf pin drift, or secret leak before merge" }
