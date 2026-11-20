@@ -238,5 +238,298 @@
       "authority": "PHILOSOPHY_ONLY",
       "role": "Trajectory-friction mining converting agent errors into canonical SKILL.md upgrades"
     }
-  ]
+  ],
+  "terminalPlatformTaxonomy": {
+    "schemaId": "sota-terminal-platform-taxonomy.v1",
+    "adr": "ADR-0017",
+    "verifiedDate": "2026-11-19",
+    "classificationBasis": "capability",
+    "classes": [
+      "PINNED_INTEGRATE",
+      "PHILOSOPHY_ONLY",
+      "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+      "HARD_REFUSED_EXECUTION_SAAS"
+    ],
+    "classPredicates": {
+      "PINNED_INTEGRATE": "Present in PINS_LOCK.json with a 40-hex commit and an allowed licence; any deployed or vendored asset records its own version next to the pin",
+      "PHILOSOPHY_ONLY": "No runtime import, vendored code or asset, account, feed, network call or lockfile entry; only independently re-derived maths or interaction patterns",
+      "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH": "Separate process or display with zero order authority, not imported by core packages, every core test passes with it absent; authority over core stays PHILOSOPHY_ONLY",
+      "HARD_REFUSED_EXECUTION_SAAS": "Any path where a third-party hosted service or third-party application holds broker access or relays a signal to a broker; refused before dispatch in paper and live alike"
+    },
+    "closedSourceVendorPolicy": "Class and predicate only; zero version or feature claims",
+    "namedSurfacesCount": 14,
+    "namedSurfaces": [
+      {
+        "surface": "perspective",
+        "class": "PINNED_INTEGRATE",
+        "pinName": "perspective",
+        "url": "https://github.com/finos/perspective",
+        "ref": "v5.9.2",
+        "commit": "0264ec13cd28ef4a2a136c8ef021c3c112bc8990",
+        "license": "Apache-2.0",
+        "role": "Local WASM grid for scanner, OMS lanes and TCA",
+        "orderAuthority": false
+      },
+      {
+        "surface": "lightweight-charts",
+        "class": "PINNED_INTEGRATE",
+        "pinName": "lightweight-charts",
+        "url": "https://github.com/tradingview/lightweight-charts",
+        "ref": "master",
+        "commit": "c29c51e1e5bc61981da5832c97797cb8283d120f",
+        "license": "Apache-2.0",
+        "role": "Local charting library and confirmed-fill markers",
+        "orderAuthority": false
+      },
+      {
+        "surface": "nautilus_trader",
+        "class": "PINNED_INTEGRATE",
+        "pinName": "nautilus_trader",
+        "url": "https://github.com/nautechsystems/nautilus_trader",
+        "ref": "v2.0.0rc9",
+        "commit": "da6b57aefdd62b44f675e434ffcfefca7f4025dd",
+        "license": "LGPL-3.0-or-later",
+        "role": "Stage 1 event-driven simulation; outcomes carry no order authority",
+        "orderAuthority": false
+      },
+      {
+        "surface": "hftbacktest",
+        "class": "PINNED_INTEGRATE",
+        "pinName": "hftbacktest",
+        "url": "https://github.com/nkaz001/hftbacktest",
+        "ref": "main",
+        "commit": "5f3ec40b2afb764e0fea112f941ed85523ef4e88",
+        "license": "MIT",
+        "role": "Queue and fill replay compared against observed paper TCA",
+        "orderAuthority": false
+      },
+      {
+        "surface": "TrendSpider",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": true,
+        "reDerivedPatterns": [
+          "Split-Half Intrabar VWAP",
+          "Catalyst-Anchored VWAP"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false
+      },
+      {
+        "surface": "Bookmap",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": true,
+        "reDerivedPatterns": [
+          "L2 resting-depth heatmap",
+          "Inferred absorption"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false
+      },
+      {
+        "surface": "Sierra Chart",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": true,
+        "reDerivedPatterns": [
+          "High-density native desktop study layout"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false
+      },
+      {
+        "surface": "DAS Trader Pro",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": true,
+        "reDerivedPatterns": [
+          "Hotkey staged bracket ergonomics (stage and validate only)"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false
+      },
+      {
+        "surface": "QuantConnect / LEAN",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": false,
+        "reDerivedPatterns": [
+          "Corporate-action fixtures",
+          "Point-in-time universe-membership fixtures"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false,
+        "note": "Engine patterns only; LEAN brokerage plugins and QuantConnect cloud live deployment are out of scope"
+      },
+      {
+        "surface": "FinceptTerminal",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": false,
+        "reDerivedPatterns": [
+          "Desktop research-pane information density"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false,
+        "license": "AGPL-3.0",
+        "licenseAllowedForPin": false,
+        "note": "AGPL-3.0 is outside ALLOWED_LICENSES; strictly a design reference"
+      },
+      {
+        "surface": "Flowsurface",
+        "class": "PHILOSOPHY_ONLY",
+        "closedSource": false,
+        "reDerivedPatterns": [
+          "Rust/Canvas historical DOM and time-and-sales strip"
+        ],
+        "runtimeImport": false,
+        "account": false,
+        "feed": false,
+        "lockfileEntry": false,
+        "orderAuthority": false,
+        "license": "GPL-3.0",
+        "licenseAllowedForPin": false,
+        "note": "GPL-3.0 is outside ALLOWED_LICENSES; strictly a design reference"
+      },
+      {
+        "surface": "TradingView Desktop",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "closedSource": true,
+        "mode": "DISPLAY1 one-way visual lens",
+        "orderAuthority": false,
+        "importedByCore": false,
+        "coreTestsPassWhenAbsent": true,
+        "coreAuthority": "PHILOSOPHY_ONLY",
+        "decidedIn": "native-agent-stack/sota-multi-model-workflows ADR-0035"
+      },
+      {
+        "surface": "OpenBB Platform / Workspace",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "closedSource": false,
+        "catalogAnchor": "openbq-org/OpenBB",
+        "mode": "Isolated offline Python/MCP research sidecar",
+        "orderAuthority": false,
+        "importedByCore": false,
+        "coreTestsPassWhenAbsent": true,
+        "coreAuthority": "PHILOSOPHY_ONLY",
+        "githubResolution20261119": "OpenBB-finance/OpenBB resolves to openbq-org/OpenBB"
+      },
+      {
+        "surface": "SignalStack",
+        "class": "HARD_REFUSED_EXECUTION_SAAS",
+        "closedSource": true,
+        "capability": "Hosted alert-to-broker relay",
+        "orderAuthority": false,
+        "refusedBeforeDispatch": true,
+        "appliesToPaperAndLive": true
+      }
+    ],
+    "pinnedIntegrateOtherShelfPins": [
+      "alpaca-py",
+      "alpaca-mcp-server",
+      "nautilus-alpaca",
+      "polars",
+      "duckdb",
+      "edgartools",
+      "ml4t-diagnostic",
+      "skfolio",
+      "ib_async",
+      "quantstats",
+      "vectorbt",
+      "pandera",
+      "exchange_calendars",
+      "statsmodels"
+    ],
+    "hardRefusedRoutes": [
+      {
+        "route": "SignalStack alert-to-broker relay"
+      },
+      {
+        "route": "TrendSpider + SignalStack relay"
+      },
+      {
+        "route": "TradingView alert-to-webhook order bridges",
+        "scope": "Third-party relay or hosted service that reaches a broker"
+      },
+      {
+        "route": "TradingView broker-connected chart trading"
+      },
+      {
+        "route": "Unguarded chart-click orders"
+      },
+      {
+        "route": "Closed SaaS execution relays"
+      },
+      {
+        "route": "QuantConnect cloud live deployment"
+      }
+    ],
+    "firstPartyPaperPathsOutsideTaxonomy": [
+      {
+        "path": "First-party chart-alert bridge into the P1 paper lane gates",
+        "owner": "native-agent-stack/sota-dynamic-trail-c",
+        "status": "OUTSIDE_ALL_FOUR_CLASSES_PENDING_D7",
+        "paperOnly": true
+      }
+    ],
+    "visualArtifactsMayBindAlertOrWebhook": false,
+    "loopbackPaperPorts": [
+      4002,
+      8787,
+      8797,
+      8799
+    ],
+    "forbiddenLivePorts": [
+      4001,
+      7496,
+      8796,
+      8798
+    ],
+    "forbiddenLiveHostsRef": "PINS_LOCK.json#/invariants/forbiddenLiveHosts",
+    "chartAssetProvenance": {
+      "name": "lightweight-charts",
+      "shelfUrl": "https://github.com/tradingview/lightweight-charts",
+      "shelfRef": "master",
+      "shelfCommit": "c29c51e1e5bc61981da5832c97797cb8283d120f",
+      "shelfPackageVersion": "5.3.0",
+      "deployedVersion": "5.0.8",
+      "deployedReleaseCommit": "c65d0697ad0c546301a1734912ca50d031d468a2",
+      "deployedAssetSha256": "bcdca2a528db7c9b386918c99c544bde3eda3f0204ec2d23a64411d4cb4686c9",
+      "deployedAssetMatch": "Ranker standalone JS equals npm lightweight-charts@5.0.8 byte-for-byte",
+      "majorLineIsNotAPin": "Lightweight Charts v5"
+    },
+    "perspectiveProvenance": {
+      "name": "perspective",
+      "pinsLockUrl": "https://github.com/finos/perspective",
+      "pinsLockRef": "v5.9.2",
+      "pinsLockCommit": "0264ec13cd28ef4a2a136c8ef021c3c112bc8990",
+      "workflowsAdr0035Repo": "perspective-dev/perspective",
+      "runtimeNpmScope": "@perspective-dev",
+      "runtimeNpmVersion": "5.9.2",
+      "githubResolution20261119": "finos/perspective resolves to perspective-dev/perspective; tag v5.9.2 peels to 0264ec13cd28ef4a2a136c8ef021c3c112bc8990"
+    },
+    "promotionBoundary": {
+      "taxonomyGrantsStageElevation": false,
+      "completedLedgerTrials": 103,
+      "hlzCallingConvention": "candidate-inclusive",
+      "cumulativeTrialsN": 104,
+      "hlzTStar": 4.2063,
+      "dsrRule": "dsr > 0.95 (dsr == 0.95 rejected)",
+      "pboRule": "pbo < 0.25 (pbo >= 0.25 rejected)",
+      "enforcedBy": "src/shelf_lock/validator.py"
+    }
+  }
 }
