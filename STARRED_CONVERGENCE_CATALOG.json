@@ -570,5 +570,91 @@
         "livePortsRefused": [4001, 7496, 8796, 8798]
       }
     ]
+  },
+  "upstreamIndicatorAndChartingPrimitives": {
+    "schemaId": "sota-v3112-upstream-indicator-primitives.v1",
+    "adr": "ADR-0019",
+    "verifiedDate": "2026-11-20",
+    "immutableCorePinsUntouched": 18,
+    "orderAuthority": false,
+    "visualArtifactsMayBindAlertOrWebhook": false,
+    "takeProfitCapEnabled": false,
+    "livePortsRefused": [4001, 7496, 8796, 8798],
+    "liveHostsRefused": ["api.alpaca.markets"],
+    "pinnedIndicatorSources": [
+      {
+        "pinName": "nautilus_trader",
+        "repo": "nautechsystems/nautilus_trader",
+        "ref": "v2.0.0rc9",
+        "commit": "da6b57aefdd62b44f675e434ffcfefca7f4025dd",
+        "license": "LGPL-3.0-or-later",
+        "nativeRustIndicatorsVerified": 39,
+        "parityFormulas": [
+          "crates/indicators/src/ratio/efficiency_ratio.rs",
+          "crates/indicators/src/ratio/spread_analyzer.rs (spot spread threshold gate in paper_auto_engine.py)",
+          "crates/indicators/src/average/ama.rs",
+          "crates/indicators/src/momentum/pressure.rs",
+          "crates/indicators/src/momentum/kvo.rs",
+          "crates/indicators/src/volatility/kc.rs",
+          "crates/indicators/src/momentum/bb.rs",
+          "crates/indicators/src/average/vwap.rs"
+        ],
+        "orderAuthority": false
+      },
+      {
+        "pinName": "hftbacktest",
+        "repo": "nkaz001/hftbacktest",
+        "ref": "main",
+        "commit": "5f3ec40b2afb764e0fea112f941ed85523ef4e88",
+        "license": "MIT",
+        "parityFormulas": [
+          "Stoikov L1 microprice and queue imbalance",
+          "Cont-Kukanov-Stoikov (2014) OFI bar proxy",
+          "RiskAdverseQueueModel lot-rounded queue fill reference (hftbacktest/src/backtest/models/queue.rs; lit round-lot print-eligibility filter in protective_entry_shield.py)"
+        ],
+        "orderAuthority": false
+      },
+      {
+        "pinName": "lightweight-charts",
+        "repo": "tradingview/lightweight-charts",
+        "ref": "master",
+        "commit": "c29c51e1e5bc61981da5832c97797cb8283d120f",
+        "license": "Apache-2.0",
+        "deployedNpmAsset": {
+          "version": "5.0.8",
+          "commit": "c65d0697ad0c546301a1734912ca50d031d468a2",
+          "note": "Runtime browser cockpit ships pinned 5.0.8 bundle while plugin-examples reference master@c29c51e1e5bc"
+        },
+        "officialPluginsVerified": 29,
+        "parityPrimitives": [
+          "volume-profile",
+          "session-highlighting",
+          "bands-indicator",
+          "user-price-lines",
+          "delta-tooltip"
+        ],
+        "orderAuthority": false
+      },
+      {
+        "pinName": "perspective",
+        "repo": "finos/perspective",
+        "ref": "v5.9.2",
+        "commit": "0264ec13cd28ef4a2a136c8ef021c3c112bc8990",
+        "license": "Apache-2.0",
+        "orderAuthority": false
+      }
+    ],
+    "canonicalPineV6Strategies": [
+      "Strategy_1_Zarattini_2024_StocksInPlay_ORB.pine",
+      "Strategy_2_Zarattini_2025_NoiseArea_VWAP.pine",
+      "Strategy_3_Stockbee_MomentumBurst_EP.pine",
+      "Strategy_4_Minervini_VCP_&_Qullamaggie_Short.pine",
+      "Strategy_5_BJZZ_InstDarkSweep_OFI_PassiveBid.pine",
+      "Strategy_6_VIX_TermStructure_Regime_Surfer.pine",
+      "SOTA_Early_Mover_Bracket_Strategy.pine"
+    ],
+    "canonicalMasterIndicator": "SOTA_Master_All_In_One_24x5_Indicator.pine",
+    "promotionTrack": "PROTECTIVE_FILTER_OR_GOVERNANCE",
+    "standaloneAlphaClaim": false
   }
 }
