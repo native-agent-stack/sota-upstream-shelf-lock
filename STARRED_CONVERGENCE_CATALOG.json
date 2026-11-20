@@ -1348,5 +1348,108 @@
       {"source": "whchien/ai-trader", "reason": "GPL-3.0 copyleft."},
       {"source": "Unofficial TradingView Scrapers/MCPs", "reason": "Retired by Official TradingView Cloud MCP (ADR-0067); zero unofficial cookie/WS scraping."}
     ]
+  },
+  "experimentalQualityFirstSotaExpansion": {
+    "schemaId": "sota-v3115-experimental-quality-first-sota.v1",
+    "adr": "ADR-0022",
+    "verifiedDate": "2026-11-20",
+    "ownerDirectivePolicy": "QUALITY_AND_SOTA_ONLY_NO_LICENSE_EXCLUSION",
+    "effectivelyPrivateExperimentalEnv": true,
+    "allowAllLicensesForExperimentalRd": true,
+    "immutableCorePinsUntouched": 18,
+    "orderAuthority": false,
+    "promotionTrack": "PROTECTIVE_FILTER_OR_GOVERNANCE",
+    "standaloneAlphaClaim": false,
+    "hlzTrialConsumed": false,
+    "nextTrialId": 105,
+    "nextHlzTStar": 4.2084,
+    "wave2StarSyncReceipt": {
+      "verifiedDate": "2026-11-20",
+      "wave1NewlyStarredCount": 50,
+      "wave2NewlyStarredCount": 58,
+      "cumulativeNewSotaStarsToday": 108,
+      "failedStarCount": 0
+    },
+    "unblockedTechnicallySotaRepos": [
+      {
+        "repo": "cvxgrp/cvxportfolio",
+        "branch": "master",
+        "commit": "351c782b9b8b395c1a5f886b77e0d55f1bc9396e",
+        "license": "GPL-3.0",
+        "orderAuthority": false,
+        "technicalSotaMerit": "Stephen Boyd / Stanford multi-period convex MPC portfolio & market-impact optimization."
+      },
+      {
+        "repo": "man-group/ArcticDB",
+        "branch": "master",
+        "commit": "2f7f5ba8288ea64c616548e593c1948868c314ea",
+        "license": "BUSL-1.1",
+        "orderAuthority": false,
+        "technicalSotaMerit": "Man Group AHL C++ bitemporal versioned DataFrame engine with native Polars/Arrow & Library.merge."
+      },
+      {
+        "repo": "google-research/timesfm",
+        "branch": "master",
+        "commit": "918df02c9d366b2145bc5876135fa2131d3ed2a6",
+        "license": "Apache-2.0 + Non-Commercial v3.0 Weights",
+        "orderAuthority": false,
+        "technicalSotaMerit": "Google Research 200M+ zero-shot time-series foundation model for experimental pre-wall benchmarking."
+      },
+      {
+        "repo": "xtdb/xtdb",
+        "branch": "main",
+        "commit": "efca88aad2e074d0db470eacce9416d7979d629d",
+        "license": "MPL-2.0",
+        "orderAuthority": false,
+        "technicalSotaMerit": "Arrow-backed native bitemporal SQL engine (valid_time + system_time) for PIT research parity."
+      },
+      {
+        "repo": "edtechre/pybroker",
+        "branch": "master",
+        "commit": "b3aa337feaeeb25bfddf0680f4f140b4df3f9ced",
+        "license": "Apache-2.0 WITH Commons-Clause-1.0",
+        "orderAuthority": false,
+        "technicalSotaMerit": "Numba-accelerated walk-forward + bootstrap backtesting harness."
+      },
+      {
+        "repo": "freqtrade/freqtrade",
+        "branch": "develop",
+        "commit": "a025e7fb3b3acf0e90fd86a9f597aea5b528e1b7",
+        "license": "GPL-3.0",
+        "orderAuthority": false,
+        "technicalSotaMerit": "FreqAI adaptive live ML retraining, outlier-rejection & rolling drift architecture."
+      }
+    ],
+    "wave2FlagshipSotaAdditions19": [
+      {"repo": "ml4t/backtest", "branch": "main", "commit": "99ee9970f74dbde59d2863189108146fc60e9685", "orderAuthority": false, "role": "Stefan Jansen 2026 event-driven backtester."},
+      {"repo": "ml4t/engineer", "branch": "main", "commit": "c63159245c0c82838b231680cd46380dad29a1bf", "orderAuthority": false, "role": "Leakage-safe feature engineering, labeling & alternative bars."},
+      {"repo": "ml4t/skills", "branch": "main", "commit": "691857537a0c8befc11dc2f2ad7a458b7c7e801c", "orderAuthority": false, "role": "Official ML4T agent skills for leakage-safe quant workflows."},
+      {"repo": "ml4t/models", "branch": "main", "commit": "4f4a4c426b5e718b6d590948a53c29792407c31a", "orderAuthority": false, "role": "Finance-specific asset-pricing & portfolio ML models."},
+      {"repo": "cvxgrp/cvxmarkowitz", "branch": "main", "commit": "c7c6a6e80a1c973412ad2d4abbc6e18fd8b4a0e6", "orderAuthority": false, "role": "Stanford DPP-compliant Markowitz portfolio builders."},
+      {"repo": "cvxgrp/cvxrisk", "branch": "main", "commit": "ea4a068f500fe0de7e1b8222761cef43d2e7e92c", "orderAuthority": false, "role": "Convex portfolio risk management primitives."},
+      {"repo": "cvxgrp/cvqp", "branch": "main", "commit": "f0f91320fa5c3bd016aefa7410f0354c588b72ad", "orderAuthority": false, "role": "Large-scale CVaR-constrained QP solver."},
+      {"repo": "cvxpy/cvxpylayers", "branch": "master", "commit": "c110a394119477bf573b36fa079fb524058df2cf", "orderAuthority": false, "role": "Differentiable convex optimization layers in PyTorch/JAX."},
+      {"repo": "SalesforceAIResearch/uni2ts", "branch": "main", "commit": "cfd46d4510ed8896f263116f32928eede05b0a75", "orderAuthority": false, "role": "Moirai universal multi-frequency time-series foundation model."},
+      {"repo": "ibm-granite/granite-tsfm", "branch": "main", "commit": "31fa2f01573341f17e9997280f61481de18ce28c", "orderAuthority": false, "role": "IBM TinyTimeMixers (TTM) ultra-fast temporal foundation models."},
+      {"repo": "thuml/Time-Series-Library", "branch": "main", "commit": "4e938a1767106324dd753b2a44832bf870a0252e", "orderAuthority": false, "role": "Tsinghua iTransformer, PatchTST, TimeXer & TimesNet benchmark."},
+      {"repo": "autogluon/autogluon", "branch": "master", "commit": "86804d3bbbb53b52d37f3179797eed771ee3c5d5", "orderAuthority": false, "role": "AWS AutoGluon-TimeSeries + Tabular SOTA ensemble."},
+      {"repo": "unit8co/darts", "branch": "master", "commit": "55a1ef5ba0b5e27fc6377282826812b18fe430a7", "orderAuthority": false, "role": "Unified probabilistic & conformal time-series forecasting."},
+      {"repo": "Nixtla/conformalforecast", "branch": "main", "commit": "59922b75adbc377342f68c453ff0d8fc6dcc7532", "orderAuthority": false, "role": "Dedicated time-series conformal prediction library."},
+      {"repo": "aangelopoulos/conformal-time-series", "branch": "main", "commit": "b729c3f5ff633bfc43f0f7ca08199b549c2573ac", "orderAuthority": false, "role": "Official Angelopoulos-Candes-Tibshirani Conformal PID reference."},
+      {"repo": "alphanome-ai/sec-parser", "branch": "main", "commit": "823d199e7eac62804ac9de1b744d97b72476fec5", "orderAuthority": false, "role": "Semantic SEC 10-K/10-Q/8-K DOM tree parser for Lazy Prices diffs."},
+      {"repo": "nautechsystems/nautilus_agents", "branch": "master", "commit": "380ae38f353355cdd4a9eb58a51baa8bb01e583d", "orderAuthority": false, "role": "Official NautilusTrader Agents SDK."},
+      {"repo": "NVIDIA/cudf", "branch": "main", "commit": "ece1ff92c8e5a61ac87f6cc43ef5cf763659377d", "orderAuthority": false, "role": "NVIDIA RAPIDS GPU DataFrame acceleration on RTX 4090."},
+      {"repo": "NVIDIA/cuml", "branch": "main", "commit": "5178997bb9fa0c3325ac0e6e7a88752dcdf6bf6d", "orderAuthority": false, "role": "NVIDIA RAPIDS GPU ML algorithms on RTX 4090."}
+    ],
+    "technicalQualityOnlyRejections": [
+      {"source": "ranaroussi/yfinance", "reason": "Technical data quality failure: unofficial Yahoo scraper with silent split/survivorship corruption & rate drops."},
+      {"source": "mementum/backtrader", "reason": "Technical staleness: unmaintained since 2024-08, Python-loop bound, zero LOB/queue physics."},
+      {"source": "kernc/backtesting.py", "reason": "Technical scope limit: single-asset toy bar engine, zero multi-asset/portfolio/LOB modeling."},
+      {"source": "hudson-and-thames/mlfinlab", "reason": "Technical staleness: abandoned since 2023-10-02 (3+ years dead)."},
+      {"source": "cuemacro/tcapy", "reason": "Technical staleness: unmaintained since 2024-02-02 and FX-only."},
+      {"source": "vollib/vollib", "reason": "Technical staleness: abandoned since 2023-06-05 (use maintained vollib/py_vollib)."},
+      {"source": "jpmorganchase/abides-jpmc-public", "reason": "Technical staleness: archived June 2025."},
+      {"source": "Unofficial TradingView Scrapers", "reason": "Technical fragility: undocumented cookie/WS scraping superseded by Official TradingView Cloud MCP (ADR-0067)."}
+    ]
   }
 }

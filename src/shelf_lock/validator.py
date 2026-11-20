@@ -18,6 +18,8 @@ ACCOUNT_OR_KEY_RE = re.compile(
     r"\b(?:PA|DU)[0-9A-Z]{6,16}\b|\b(?:PK|AK)[0-9A-Z]{16,32}\b|\bsk-(?:ant-|proj-)?[A-Za-z0-9_\-]{20,}\b"
 )
 ALLOWED_LICENSES = {"MIT", "Apache-2.0", "BSD-3-Clause", "BSD-2-Clause", "NCSA", "LGPL-3.0-or-later"}
+EXPERIMENTAL_ENV_EVALUATION_POLICY = "QUALITY_AND_SOTA_ONLY_NO_LICENSE_EXCLUSION"
+EXPERIMENTAL_QUALITY_FIRST_ALLOW_ALL_LICENSES = True
 HLZ_BASE_ALPHA = 0.00135
 
 
@@ -144,6 +146,33 @@ def scan_repo_privacy_hygiene(repo_root: pathlib.Path) -> list[str]:
         if ACCOUNT_OR_KEY_RE.search(text):
             violations.append(f"{rel}: contains broker account ID or API key pattern")
     return violations
+
+
+def evaluate_experimental_repo_eligibility(
+    repo: str,
+    *,
+    actively_maintained: bool,
+    institutional_or_sota_caliber: bool,
+    uses_official_or_verifiable_data: bool = True,
+    single_asset_toy_only: bool = False,
+    license_id: str = "ANY",
+) -> tuple[bool, list[str]]:
+    """Evaluate a repository strictly on technical quality & SOTA-ness inside the personal experimental env.
+
+    Per owner directive (`ADR-0022`), `license_id` NEVER disqualifies a technically SOTA repository inside this
+    effectively-private zero-redistribution experimental lab (`EXPERIMENTAL_QUALITY_FIRST_ALLOW_ALL_LICENSES = True`).
+    """
+    _ = (repo, license_id)
+    reasons: list[str] = []
+    if not actively_maintained:
+        reasons.append("TECHNICAL_FAIL_STALE_OR_ARCHIVED")
+    if not institutional_or_sota_caliber:
+        reasons.append("TECHNICAL_FAIL_NOT_SOTA_CALIBER")
+    if not uses_official_or_verifiable_data:
+        reasons.append("TECHNICAL_FAIL_FRAGILE_SCRAPER_OR_UNVERIFIABLE_DATA")
+    if single_asset_toy_only:
+        reasons.append("TECHNICAL_FAIL_SINGLE_ASSET_TOY_SCOPE")
+    return (len(reasons) == 0, reasons)
 
 
 def main() -> int:
