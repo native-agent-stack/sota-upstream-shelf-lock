@@ -12,6 +12,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from shelf_lock.full_resolution_rule import audit_repo_full_resolution
 from shelf_lock.hard_upstream_rule import (
     verify_adrs_have_evidence,
     verify_sealed_manifests,
@@ -30,6 +31,7 @@ def main() -> int:
     problems.extend(verify_sealed_manifests(ROOT))
     problems.extend(verify_shelf_pins_on_disk(load_pins_lock(ROOT)))
     problems.extend(verify_zero_leaks_and_noreply(ROOT))
+    problems.extend(audit_repo_full_resolution(ROOT, covered_prefixes=("src/", "scripts/")))
 
     cat = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "architecture_catalog.py"), "--check"],
@@ -45,7 +47,9 @@ def main() -> int:
             print(f"[MERGE-GATE FAIL] {p}", file=sys.stderr)
         return 1
 
-    print("[MERGE-GATE PASS] ADR-0023 upstream-map, 18-pin shelf, ADR evidence, PINS_LOCK, and zero-leak verified.")
+    print(
+        "[MERGE-GATE PASS] ADR-0023 upstream-map, 18-pin shelf, ADR evidence, PINS_LOCK, and zero-leak verified."
+    )
     return 0
 
 
