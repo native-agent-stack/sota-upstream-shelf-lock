@@ -136,3 +136,23 @@ def test_audit_workstation_repos_emits_sealed_sha256_report(tmp_path: pathlib.Pa
     assert report["repos_passing_upstream_map"] == 1
     assert report["repos_passing_adr_evidence"] == 1
     assert len(report["manifest_sha256"]) == 64
+
+
+def test_bootstrap_cleanroom_spl_org_generates_verified_6_repo_blueprint(tmp_path: pathlib.Path) -> None:
+    from shelf_lock.hard_upstream_rule import bootstrap_cleanroom_spl_org, parse_upstream_md_components
+
+    out = bootstrap_cleanroom_spl_org(tmp_path / "spl-org", org_name="sota-spl-demo")
+    assert out["repos_count"] == 6
+    assert out["shelf_pins_count"] == 18
+    assert len(out["manifest_sha256"]) == 64
+    assert (tmp_path / "spl-org" / "ORG_BLUEPRINT_MANIFEST.json").is_file()
+    for row in out["repos"]:
+        rdir = tmp_path / "spl-org" / row["repo"]
+        assert (rdir / "UPSTREAM.md").is_file()
+        assert (rdir / "upstream-map.toml").is_file()
+        assert (rdir / "scripts" / "merge_gate.py").is_file()
+        assert (rdir / "orca.yaml").is_file()
+    comps = parse_upstream_md_components(
+        "| **L0** | `mise` | https://github.com/jdx/mise | `2026.11.6` | MIT |"
+    )
+    assert "mise" in comps and "jdx/mise" in comps

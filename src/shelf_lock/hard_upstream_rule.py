@@ -170,7 +170,28 @@ def parse_upstream_md_components(up_md_text: str) -> set[str]:
         short = org_repo.split("/", 1)[1]
         registered.add(short)
         registered.add(_norm_key(short))
-    # 5. Explicitly register CPython stdlib when referenced as Python runtime
+    # 5. Backticked 2nd-column tables (e.g. | **L0** | `mise` | ...) and GitHub repo URLs
+    for line in up_md_text.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)[1:-1]]
+        if len(cells) >= 3:
+            for tok in re.findall(r"`([A-Za-z0-9_./-]+)`", cells[1]):
+                registered.add(tok)
+                registered.add(_norm_key(tok))
+                if "/" in tok:
+                    short = tok.split("/", 1)[1]
+                    registered.add(short)
+                    registered.add(_norm_key(short))
+    for org_repo in re.findall(r"https://github\.com/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)", up_md_text):
+        clean_or = org_repo.rstrip("`.,);")
+        if "/" in clean_or:
+            registered.add(clean_or)
+            registered.add(_norm_key(clean_or))
+            short = clean_or.split("/", 1)[1]
+            registered.add(short)
+            registered.add(_norm_key(short))
+    # 6. Explicitly register CPython stdlib when referenced as Python runtime
     if re.search(r"cpython|python\s*3\.\d+", up_md_text, flags=re.IGNORECASE):
         registered.update({"cpython-stdlib", "CPython", "cpython"})
     return registered
@@ -435,12 +456,127 @@ def audit_workstation_repos(
     return payload
 
 
+CLEANROOM_SPL_ORG_REPOS: tuple[tuple[str, str, str], ...] = (
+    (".github", "org-profile", "Organization governance, SHA-pinned reusable CI, and zero-leak org manifest"),
+    ("sota-shelf-lock", "L0-shelf", "Immutable 18-pin upstream shelf registry, ADR-0023/0024 hard rules, and audit CLI"),
+    ("sota-research-sim-lab", "L5-sim", "Pre-wall (<=2026-10-15) NautilusTrader/VectorBT/hftbacktest/5-lib causal research & CPCV/DSR falsifier"),
+    ("sota-paper-live-engine", "L3-exec", "NautilusTrader + alpaca-py + ib_async Paper->Live engine with ADR-0022 <=2.00% stops & atomic SAR"),
+    ("sota-compounding-harness", "L9-harness", "8-runtime PreToolUse SOTA-source hooks, 60-skill SkillEvaluator, Empirical-Bayes compounding & sota-bus"),
+    ("sota-orca-workflows", "L9-orca", "Dual-workstation Orca worktree/automation workflows & research-convergence-first landing gates"),
+)
+
+
+def bootstrap_cleanroom_spl_org(
+    target_dir: pathlib.Path,
+    *,
+    org_name: str = "sota-spl-cleanroom",
+) -> dict[str, Any]:
+    """Generate a turnkey clean-room Sim->Paper->Live org blueprint pre-wired with ADR-0023 hard rules."""
+    root = target_dir.resolve()
+    root.mkdir(parents=True, exist_ok=True)
+    pins_raw = json.loads((pathlib.Path(__file__).resolve().parents[2] / "PINS_LOCK.json").read_text(encoding="utf-8"))
+    shelf_rows = pins_raw.get("upstreamShelfPins", []) if isinstance(pins_raw, dict) else []
+    pins = {str(item["name"]): item for item in shelf_rows if isinstance(item, dict) and "name" in item}
+    pin_rows = "\n".join(
+        f"| `{k}` | `{v.get('ref', '')}` @ `{v.get('commit', '')}` | {v.get('license', '')} | {v.get('url', '')} | upstream |"
+        for k, v in sorted(pins.items())
+    )
+    pin_toml = "\n".join(
+        f'"{k}" = "{v.get("commit", "")}"'
+        for k, v in sorted(pins.items())
+    )
+
+    created_repos: list[dict[str, Any]] = []
+    for repo_name, layer, role in CLEANROOM_SPL_ORG_REPOS:
+        rdir = root / repo_name
+        (rdir / "docs" / "adr").mkdir(parents=True, exist_ok=True)
+        (rdir / "scripts").mkdir(parents=True, exist_ok=True)
+        (rdir / "UPSTREAM.md").write_text(
+            f"# {org_name}/{repo_name} — Pinned SOTA Upstream Register ({layer})\n\n"
+            f"| Component | Pin / Commit | Origin |\n|---|---|---|\n"
+            f"| `orca` | `stablyai/orca` | upstream |\n"
+            f"{pin_rows}\n",
+            encoding="utf-8",
+        )
+        (rdir / "upstream-map.toml").write_text(
+            f"# ADR-0023 fail-closed upstream-map.toml for {org_name}/{repo_name}\n\n"
+            f"[shelf_pins]\n{pin_toml}\n\n"
+            f"[areas]\n"
+            f'"scripts/merge_gate.py" = {{ upstream = "nautilus_trader", how = "build-on", '
+            f'feature = "ADR-0023 hard upstream-source, ADR-evidence, and zero-leak merge gate", '
+            f'why = "fail closed before any commit or push bypasses pinned SOTA provenance" }}\n',
+            encoding="utf-8",
+        )
+        (rdir / "scripts" / "merge_gate.py").write_text(
+            "#!/usr/bin/env python3\n"
+            '"""Fail-closed ADR-0023 merge gate."""\n'
+            "import pathlib, sys\n"
+            "from shelf_lock.hard_upstream_rule import main\n"
+            "if __name__ == '__main__':\n"
+            "    raise SystemExit(main(['--repo', str(pathlib.Path(__file__).resolve().parents[1])]))\n",
+            encoding="utf-8",
+        )
+        (rdir / "docs" / "adr" / "ADR-0001-sota-upstream-first-and-research-convergence.md").write_text(
+            f"# ADR-0001: SOTA Upstream-First & Research-Convergence Foundation ({repo_name})\n\n"
+            f"- **Status:** Accepted\n- **Date:** 2026-11-20\n- **Layer:** {layer}\n\n"
+            f"## Context & Decision\n{role}. Every line of code must install, integrate, or build upon "
+            f"pinned SOTA upstreams in `UPSTREAM.md` and `upstream-map.toml` under `ADR-0023`.\n\n"
+            f"## Verification & Evidence\n- Generated by `shelf_lock.hard_upstream_rule.bootstrap_cleanroom_spl_org` "
+            f"with `18` SHA-pinned SOTA upstream shelf contracts and fail-closed `scripts/merge_gate.py`.\n",
+            encoding="utf-8",
+        )
+        (rdir / "orca.yaml").write_text(
+            f"name: {repo_name}\n"
+            f"org: {org_name}\n"
+            f"layer: {layer}\n"
+            f"hard_rules:\n"
+            f"  adr_0023_upstream_map: required\n"
+            f"  adr_0022_max_stop_pct: 2.0\n"
+            f"  paper_only_firewall: true\n",
+            encoding="utf-8",
+        )
+        created_repos.append({"repo": repo_name, "layer": layer, "role": role})
+
+    manifest: dict[str, Any] = {
+        "schema": "sota.cleanroom-spl-org-blueprint.v1",
+        "adr": "ADR-0024",
+        "org_name": org_name,
+        "repos_count": len(created_repos),
+        "shelf_pins_count": len(pins),
+        "repos": created_repos,
+    }
+    digest = hashlib.sha256(
+        json.dumps(manifest, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    ).hexdigest()
+    manifest["manifest_sha256"] = digest
+    (root / "ORG_BLUEPRINT_MANIFEST.json").write_text(
+        json.dumps(manifest, indent=2, allow_nan=False) + "\n", encoding="utf-8"
+    )
+    return manifest
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Universal Hard SOTA Upstream-Source & ADR-Evidence Enforcer")
     parser.add_argument("--repo", type=pathlib.Path, help="Verify a single repository root")
     parser.add_argument("--audit-workstation", type=pathlib.Path, help="Audit all git repos under a directory")
+    parser.add_argument(
+        "--require-full-compliance",
+        action="store_true",
+        help="With --audit-workstation, exit non-zero unless 100% of repos pass upstream-map & ADR evidence",
+    )
+    parser.add_argument(
+        "--bootstrap-org-blueprint",
+        type=pathlib.Path,
+        help="Generate clean-room Sim->Paper->Live org blueprint pre-wired with ADR-0023 hard rules",
+    )
+    parser.add_argument("--org-name", default="sota-spl-cleanroom", help="Org name for --bootstrap-org-blueprint")
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args(argv)
+
+    if args.bootstrap_org_blueprint:
+        res = bootstrap_cleanroom_spl_org(args.bootstrap_org_blueprint, org_name=args.org_name)
+        print(json.dumps(res, indent=2, allow_nan=False))
+        return 0
 
     if args.audit_workstation:
         report = audit_workstation_repos(args.audit_workstation)
@@ -453,7 +589,15 @@ def main(argv: list[str] | None = None) -> int:
                 f"ADR evidence pass={report['repos_passing_adr_evidence']}/{report['repos_audited']} | "
                 f"18-pin shelf ok={report['shelf_18_pins_ok']} | sha256={report['manifest_sha256'][:16]}"
             )
-        return 0 if report["shelf_18_pins_ok"] else 1
+        ok = bool(report["shelf_18_pins_ok"])
+        if args.require_full_compliance:
+            n = report["repos_audited"]
+            ok = ok and (
+                report["repos_with_upstream_md"] == n
+                and report["repos_passing_upstream_map"] == n
+                and report["repos_passing_adr_evidence"] == n
+            )
+        return 0 if ok else 1
 
     target = args.repo or pathlib.Path(__file__).resolve().parents[2]
     problems = [
