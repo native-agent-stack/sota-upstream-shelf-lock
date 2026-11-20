@@ -335,3 +335,72 @@ def test_adr0017_promotion_boundary_hlz_dsr_pbo() -> None:
 
     ok_t, t_reasons = validate_promotion_candidate(PromotionCandidate(**{**base, "clustered_t_stat": 4.2062}))
     assert ok_t is False and len(t_reasons) == 1 and t_reasons[0].startswith("HLZ_HURDLE_FAILED")
+
+
+def test_adr0018_v3110_qlib_and_openbb_extensions() -> None:
+    import re
+
+    hex40 = re.compile(r"^[0-9a-f]{40}$")
+    catalog, pins_doc = _load_catalog_and_pins()
+    assert len(pins_doc["upstreamShelfPins"]) == 18
+    ext = catalog["alphaFactoryAndTerminalExtensions"]
+    assert ext["schemaId"] == "sota-v3110-alpha-terminal-extensions.v1"
+    assert ext["adr"] == "ADR-0018"
+    assert ext["immutableCorePinsUntouched"] == 18
+    by_name = {e["name"]: e for e in ext["entries"]}
+    assert set(by_name) == {"qlib", "openbb-workspace-backend-sdk"}
+    qlib = by_name["qlib"]
+    assert qlib["repo"] == "microsoft/qlib"
+    assert qlib["license"] == "MIT" and qlib["license"] in ALLOWED_LICENSES
+    assert qlib["tagCommit"] == "da920b7f954f48ab1bb64117c976710de198373e"
+    assert qlib["headCommit"] == "54355232463878d2eebb91fe0ee5fa7fa1f5976c"
+    assert hex40.match(qlib["tagCommit"]) and hex40.match(qlib["headCommit"])
+    assert qlib["orderAuthority"] is False
+    obb = by_name["openbb-workspace-backend-sdk"]
+    assert obb["repo"] == "OpenBB-finance/backends-for-openbb"
+    assert obb["license"] == "MIT" and obb["license"] in ALLOWED_LICENSES
+    assert obb["commit"] == "a6293707576e16edda8305adda95b07b6a4b968b"
+    assert hex40.match(obb["commit"])
+    assert obb["orderAuthority"] is False
+    assert set(obb["livePortsRefused"]) == {4001, 7496, 8796, 8798}
+    comp = obb["companionPlatform"]
+    assert comp["repo"] == "OpenBB-finance/OpenBB"
+    assert comp["commit"] == "dddc3b328284bb953b6e5468b167b39c78490001"
+    assert hex40.match(comp["commit"])
+    assert comp["license"] == "AGPL-3.0-only"
+    assert comp["class"] == "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH_NON_BUNDLED"
+
+
+def test_adr0018_immutable_18_core_pins_digest_and_literal_shas() -> None:
+    """Guarantee offline regression failure if any of the 18 immutable core pins in PINS_LOCK.json is mutated."""
+    import hashlib
+
+    pins_bytes = (REPO_ROOT / "PINS_LOCK.json").read_bytes()
+    assert (
+        hashlib.sha256(pins_bytes).hexdigest()
+        == "ed5e461e451b58f04df8b97c44fe14fc1ae9362491abb3e78dffd4ca044ecc5d"
+    )
+
+    pins_doc = load_pins_lock(REPO_ROOT)
+    expected_core_pins = {
+        "alpaca-py": ("c42add7c0a7026e2ead3ed64e76f4def2b99fda4", "Apache-2.0"),
+        "alpaca-mcp-server": ("63cc4278d87b31f3ed4efcfaa55624095c6d7be8", "MIT"),
+        "nautilus_trader": ("da6b57aefdd62b44f675e434ffcfefca7f4025dd", "LGPL-3.0-or-later"),
+        "nautilus-alpaca": ("59685d56631b981018a189b5ced1a7000a50bfbd", "Apache-2.0"),
+        "polars": ("7f902bd3ffd27ff82d14278a09a295ff2f7aed92", "MIT"),
+        "duckdb": ("d54cbbe3df17e8e5ce68312f483b4155836112aa", "MIT"),
+        "edgartools": ("574c2bd15f6c629bceef03b6550ea8ac8abf3473", "MIT"),
+        "ml4t-diagnostic": ("19e76072e64a18c9ba56130e4a7bcc0bc871f57e", "MIT"),
+        "skfolio": ("90e3fb907fab39d244d899f3caf4e9676889309c", "BSD-3-Clause"),
+        "hftbacktest": ("5f3ec40b2afb764e0fea112f941ed85523ef4e88", "MIT"),
+        "ib_async": ("ab629f34c1823ea4c1542f32f07377208a86bdfd", "BSD-3-Clause"),
+        "perspective": ("0264ec13cd28ef4a2a136c8ef021c3c112bc8990", "Apache-2.0"),
+        "lightweight-charts": ("c29c51e1e5bc61981da5832c97797cb8283d120f", "Apache-2.0"),
+        "quantstats": ("d1a214fb906e76f974f45cdccf923b601c67a756", "Apache-2.0"),
+        "vectorbt": ("a52a984b631624bb9daf41cb19f532fe559cf0ef", "Apache-2.0"),
+        "pandera": ("02b375ab43f39f8c5c5108695c1791fa04f99a26", "MIT"),
+        "exchange_calendars": ("dbe38b1f6887434bbdd1a7d2df6ff8f1742a048a", "Apache-2.0"),
+        "statsmodels": ("278ff9950636cdd4939b4055e339a8e681d79cab", "BSD-3-Clause"),
+    }
+    actual_core_pins = {p["name"]: (p["commit"], p["license"]) for p in pins_doc["upstreamShelfPins"]}
+    assert actual_core_pins == expected_core_pins

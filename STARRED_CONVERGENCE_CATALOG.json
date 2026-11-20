@@ -531,5 +531,44 @@
       "pboRule": "pbo < 0.25 (pbo >= 0.25 rejected)",
       "enforcedBy": "src/shelf_lock/validator.py"
     }
+  },
+  "alphaFactoryAndTerminalExtensions": {
+    "schemaId": "sota-v3110-alpha-terminal-extensions.v1",
+    "adr": "ADR-0018",
+    "verifiedDate": "2026-11-20",
+    "immutableCorePinsUntouched": 18,
+    "entries": [
+      {
+        "name": "qlib",
+        "repo": "microsoft/qlib",
+        "url": "https://github.com/microsoft/qlib",
+        "ref": "v0.9.7",
+        "tagCommit": "da920b7f954f48ab1bb64117c976710de198373e",
+        "headCommit": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+        "license": "MIT",
+        "authority": "EVALUATED_BENCHMARK_AND_S1_FACTORY",
+        "role": "Cross-sectional Alpha158 / LightGBM market-neutral pre-wall (<= 2026-10-15) benchmark in S1 Alpha Factory",
+        "orderAuthority": false
+      },
+      {
+        "name": "openbb-workspace-backend-sdk",
+        "repo": "OpenBB-finance/backends-for-openbb",
+        "url": "https://github.com/OpenBB-finance/backends-for-openbb",
+        "ref": "main",
+        "commit": "a6293707576e16edda8305adda95b07b6a4b968b",
+        "license": "MIT",
+        "authority": "UPSTREAM_BACKEND_CONTRACT",
+        "role": "FastAPI custom backend protocol (widgets.json, apps.json, CORS https://pro.openbb.co) serving DF1..DF12 targets, ADR-0059 TCA, and paper-only BOATS order staging",
+        "companionPlatform": {
+          "repo": "OpenBB-finance/OpenBB",
+          "ref": "v4.7.0",
+          "commit": "dddc3b328284bb953b6e5468b167b39c78490001",
+          "license": "AGPL-3.0-only",
+          "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH_NON_BUNDLED"
+        },
+        "orderAuthority": false,
+        "livePortsRefused": [4001, 7496, 8796, 8798]
+      }
+    ]
   }
 }
