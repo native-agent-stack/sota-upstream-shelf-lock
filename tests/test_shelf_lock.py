@@ -4,6 +4,7 @@ import json
 import pathlib
 import subprocess
 import sys
+from dataclasses import replace
 
 from shelf_lock import (
     PromotionCandidate,
@@ -311,29 +312,27 @@ def test_adr0017_promotion_boundary_hlz_dsr_pbo() -> None:
     assert compute_hlz_t_hurdle(104) == boundary["hlzTStar"] == 4.2063
     assert compute_hlz_t_hurdle(103) == 4.2041
 
-    base = {
-        "strategy_id": "ADR0017_BOUNDARY_PROBE",
-        "calibration_max_date": "2026-10-15",
-        "cumulative_trials_n": 104,
-        "clustered_t_stat": 4.50,
-        "dsr_probability": 0.98,
-        "cpcv_pbo": 0.10,
-        "net_2x_cost_bps": 5.0,
-        "max_protective_stop_pct": 1.5,
-        "paper_closed_trades": 30,
-        "alpaca_orders_per_min_cap": 200,
-    }
-    assert validate_promotion_candidate(PromotionCandidate(**base)) == (True, [])
-
-    ok_dsr, dsr_reasons = validate_promotion_candidate(
-        PromotionCandidate(**{**base, "dsr_probability": 0.95})
+    base = PromotionCandidate(
+        strategy_id="ADR0017_BOUNDARY_PROBE",
+        calibration_max_date="2026-10-15",
+        cumulative_trials_n=104,
+        clustered_t_stat=4.50,
+        dsr_probability=0.98,
+        cpcv_pbo=0.10,
+        net_2x_cost_bps=5.0,
+        max_protective_stop_pct=1.5,
+        paper_closed_trades=30,
+        alpaca_orders_per_min_cap=200,
     )
+    assert validate_promotion_candidate(base) == (True, [])
+
+    ok_dsr, dsr_reasons = validate_promotion_candidate(replace(base, dsr_probability=0.95))
     assert ok_dsr is False and len(dsr_reasons) == 1 and dsr_reasons[0].startswith("DSR_GATE_FAILED")
 
-    ok_pbo, pbo_reasons = validate_promotion_candidate(PromotionCandidate(**{**base, "cpcv_pbo": 0.25}))
+    ok_pbo, pbo_reasons = validate_promotion_candidate(replace(base, cpcv_pbo=0.25))
     assert ok_pbo is False and len(pbo_reasons) == 1 and pbo_reasons[0].startswith("CPCV_PBO_FAILED")
 
-    ok_t, t_reasons = validate_promotion_candidate(PromotionCandidate(**{**base, "clustered_t_stat": 4.2062}))
+    ok_t, t_reasons = validate_promotion_candidate(replace(base, clustered_t_stat=4.2062))
     assert ok_t is False and len(t_reasons) == 1 and t_reasons[0].startswith("HLZ_HURDLE_FAILED")
 
 

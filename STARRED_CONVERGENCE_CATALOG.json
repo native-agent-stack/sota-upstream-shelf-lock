@@ -1070,5 +1070,283 @@
         "summary": "Unify RC -> Hansen SPA -> Romano-Wolf StepM -> MCS alongside ml4t-diagnostic DSR/RAS/PBO/MinTRL, plus full-information Fixed-Share Hedge and Jensen-Kelly-Pedersen Hierarchical EB cluster shrinkage."
       }
     ]
+  },
+  "fullSourceCoverageAndStarredManifest": {
+    "schemaId": "sota-v3114-full-source-coverage-and-cleanup.v1",
+    "adr": "ADR-0021",
+    "verifiedDate": "2026-11-20",
+    "immutableCorePinsUntouched": 18,
+    "orderAuthority": false,
+    "promotionTrack": "PROTECTIVE_FILTER_OR_GOVERNANCE",
+    "standaloneAlphaClaim": false,
+    "hlzTrialConsumed": false,
+    "nextTrialId": 105,
+    "nextHlzTStar": 4.2084,
+    "validatorAllowedLicensesExpanded": [
+      "Apache-2.0",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "LGPL-3.0-or-later",
+      "MIT",
+      "NCSA"
+    ],
+    "githubStarSyncReceipt": {
+      "verifiedDate": "2026-11-20",
+      "newlyStarredElitePermissiveCount": 50,
+      "failedStarCount": 0,
+      "core18AllStarred": true,
+      "frontier18AllStarred": true,
+      "officialCommunityBeyond19AllStarred": true
+    },
+    "adr0018RefreshedPointers": {
+      "qlib": {
+        "repo": "microsoft/qlib",
+        "ref": "v0.9.8",
+        "commit": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+        "license": "MIT",
+        "securityFix": "Restricted AST evaluator replacing arbitrary eval + trusted=True pickle gate."
+      },
+      "openbbWorkspaceBackendSdk": {
+        "repo": "openbq-org/backends-for-openbb",
+        "ref": "main",
+        "commit": "a6293707576e16edda8305adda95b07b6a4b968b",
+        "license": "MIT",
+        "supersedesArchivedRepo": "OpenBB-finance/backends-for-openbb"
+      },
+      "openbbPlatformV5": {
+        "repo": "openbq-org/OpenBB",
+        "ref": "openbb-v5.0.0",
+        "commit": "5a7517ae8bc74ecdcd1a549ed26df8ad131b02d0",
+        "license": "Apache-2.0",
+        "relicensedFrom": "AGPL-3.0-only"
+      }
+    },
+    "officialRegulatoryAndExchangePrimarySources": [
+      {
+        "sourceId": "SEC_EDGAR_API_AND_88FR76896",
+        "authority": "OFFICIAL_REGULATORY",
+        "coverage": "Form 4 XML, 5-day XML SC 13D (88 FR 76896), 8-K, S-3/424B5/EFFECT, 10-K/10-Q XBRL strictly keyed on acceptanceDateTime."
+      },
+      {
+        "sourceId": "FINRA_REGSHO_AND_RULE_4560",
+        "authority": "OFFICIAL_REGULATORY",
+        "coverage": "Daily CNMSshvol (T-1 strict PIT), Reg SHO Threshold List, and biweekly Rule 4560 settled short interest (T+8 XNYS)."
+      },
+      {
+        "sourceId": "CONSOLIDATED_SIP_CTA_UTP_23X5",
+        "authority": "OFFICIAL_EXCHANGE_TAPE",
+        "coverage": "Consolidated SIP L1 NBBO & trades (Nov 3, 2025 unit cutover; Dec 6, 2026 21:00 ET 23/5 SIP cutover boundary)."
+      },
+      {
+        "sourceId": "BLUE_OCEAN_ATS_BOATS",
+        "authority": "OFFICIAL_ATS_VENUE",
+        "coverage": "20:00-04:00 ET overnight ATS NBBO & trades via Alpaca DataFeed.BOATS and IBKR OVERNIGHT (IBEOS)."
+      },
+      {
+        "sourceId": "EXCHANGE_NOII_AND_DATABENTO_MBO_MBP10",
+        "authority": "OFFICIAL_EXCHANGE_DEPTH",
+        "coverage": "Nasdaq ITCH/NOII & NYSE Pillar L2/L3 MBP-10 bitemporal streams (ts_event_ns <= ts_recv_ns) via Databento DBN."
+      },
+      {
+        "sourceId": "OFFICIAL_TRADINGVIEW_CLOUD_MCP",
+        "authority": "OFFICIAL_PLATFORM_MCP",
+        "coverage": "Official TradingView Cloud MCP (ADR-0067), Pine Script v6 non-repainting suite, and lightweight-charts."
+      },
+      {
+        "sourceId": "OFFICIAL_ALPACA_AND_IBKR_PAPER_APIS",
+        "authority": "OFFICIAL_BROKER_PAPER_ONLY",
+        "coverage": "Alpaca Paper (PA..., <=200/min order cap) + IBKR Paper Gateway (:4002 DU..., 3,000 msg/min); live hosts/ports hard-refused."
+      }
+    ],
+    "officialCommunityAndBeyondStarred19": [
+      {
+        "repo": "openbq-org/backends-for-openbb",
+        "branch": "main",
+        "commit": "a6293707576e16edda8305adda95b07b6a4b968b",
+        "license": "MIT",
+        "tier": "OFFICIAL_FOUNDATION",
+        "orderAuthority": false,
+        "role": "Active OpenBQ Foundation MIT backend SDK replacing archived OpenBB-finance/backends-for-openbb."
+      },
+      {
+        "repo": "openbq-org/finos-workspace",
+        "branch": "develop",
+        "commit": "a0047d50d97c8db901eb802a224da890866dafba",
+        "license": "Apache-2.0",
+        "tier": "OFFICIAL_FOUNDATION",
+        "orderAuthority": false,
+        "role": "FINOS-stewarded open institutional financial workspace UI."
+      },
+      {
+        "repo": "apache/arrow",
+        "branch": "main",
+        "commit": "d58f83f3131cb57ede40d99ac4d0978748d1a970",
+        "license": "Apache-2.0",
+        "tier": "OFFICIAL_FOUNDATION",
+        "orderAuthority": false,
+        "role": "Zero-copy columnar memory standard unifying Polars, DuckDB, Perspective, Delta-RS & DBN."
+      },
+      {
+        "repo": "apache/iceberg-python",
+        "branch": "main",
+        "commit": "07216edd0eca59c1d398e8f77f61ad2d9ae2ef2f",
+        "license": "Apache-2.0",
+        "tier": "OFFICIAL_FOUNDATION",
+        "orderAuthority": false,
+        "role": "Open ACID lakehouse snapshot standard for multi-engine bitemporal lake parity."
+      },
+      {
+        "repo": "lballabio/QuantLib",
+        "branch": "master",
+        "commit": "8c52b45180d074d899a94f990140cba5b425f2d8",
+        "license": "BSD-3-Clause",
+        "tier": "INSTITUTIONAL_COMMUNITY",
+        "orderAuthority": false,
+        "role": "Institutional C++/Python derivatives pricing, vol surfaces, Greeks & rates curves (v1.44)."
+      },
+      {
+        "repo": "goldmansachs/gs-quant",
+        "branch": "master",
+        "commit": "70220e300524d54bd273be0f4c485d53b3780482",
+        "license": "Apache-2.0",
+        "tier": "INSTITUTIONAL_COMMUNITY",
+        "orderAuthority": false,
+        "role": "Offline institutional timeseries econometrics, volatility & risk utilities (release-2.2.6)."
+      },
+      {
+        "repo": "questdb/questdb",
+        "branch": "master",
+        "commit": "9a9388714bd4b3b7ee8887f09dbdc229423baef9",
+        "license": "Apache-2.0",
+        "tier": "BEYOND_INFRASTRUCTURE",
+        "orderAuthority": false,
+        "role": "Nanosecond tick database with native ASOF JOIN and Parquet export for quote-to-trade TCA."
+      },
+      {
+        "repo": "deepcharles/ruptures",
+        "branch": "master",
+        "commit": "ee1c8ff8a548d54c641b2bb471562165931f31c7",
+        "license": "BSD-2-Clause",
+        "tier": "COMMUNITY_STATS",
+        "orderAuthority": false,
+        "role": "Offline PELT/BinSeg structural changepoint detection for historical regime walls."
+      },
+      {
+        "repo": "aeon-toolkit/aeon",
+        "branch": "main",
+        "commit": "68e4186682ef3bfb89a878b6aecf62f133b57734",
+        "license": "BSD-3-Clause",
+        "tier": "COMMUNITY_STATS",
+        "orderAuthority": false,
+        "role": "Time-series segmentation, motif/Rocket classification & anomaly detection."
+      },
+      {
+        "repo": "vollib/py_vollib",
+        "branch": "master",
+        "commit": "11f2058f709328339e3906d99cb04ff41af97776",
+        "license": "MIT",
+        "tier": "COMMUNITY_OPTIONS",
+        "orderAuthority": false,
+        "role": "Maintained Jackel LetsBeRational Black-Scholes IV & Greeks (supersedes stale vollib/vollib)."
+      },
+      {
+        "repo": "pymc-devs/pymc",
+        "branch": "main",
+        "commit": "648435dfd1694367913fbc10ea399b112598fd6d",
+        "license": "Apache-2.0",
+        "tier": "COMMUNITY_BAYESIAN",
+        "orderAuthority": false,
+        "role": "Full probabilistic hierarchical/state-space Bayesian modeling with PyTensor 3 + nutpie."
+      },
+      {
+        "repo": "Nixtla/mlforecast",
+        "branch": "main",
+        "commit": "8cfd2b8e70e0dabe6561a644e67c9814bcfc5092",
+        "license": "Apache-2.0",
+        "tier": "BEYOND_FORECASTING",
+        "orderAuthority": false,
+        "role": "Polars-native causal lagged ML forecasting with conformal intervals."
+      },
+      {
+        "repo": "Nixtla/neuralforecast",
+        "branch": "main",
+        "commit": "fda9a137308a3b134fbb6d9bc4b575bb4314e727",
+        "license": "Apache-2.0",
+        "tier": "BEYOND_FORECASTING",
+        "orderAuthority": false,
+        "role": "PatchTST/NHITS/TFT GPU sequence forecasting benchmark on Noesis RTX 4090."
+      },
+      {
+        "repo": "lightgbm-org/LightGBM",
+        "branch": "main",
+        "commit": "b892602e2ca4cd79dfe5439c7c35fa1b4ab61567",
+        "license": "MIT",
+        "tier": "BEYOND_ML_CORE",
+        "orderAuthority": false,
+        "role": "Fast leaf-wise GBDT engine powering purged CPCV cross-sectional and meta-labeling models."
+      },
+      {
+        "repo": "dmlc/xgboost",
+        "branch": "master",
+        "commit": "e0e4564aea606e688b6db58d6a9235ac19748dcb",
+        "license": "Apache-2.0",
+        "tier": "BEYOND_ML_CORE",
+        "orderAuthority": false,
+        "role": "GPU-accelerated histogram GBDT for regularized factor & triple-barrier meta-label ensembles."
+      },
+      {
+        "repo": "catboost/catboost",
+        "branch": "master",
+        "commit": "b10928e807a7c12e8c31135b9ac2fb68f05c5e9d",
+        "license": "Apache-2.0",
+        "tier": "BEYOND_ML_CORE",
+        "orderAuthority": false,
+        "role": "Oblivious-tree GBDT resistant to tabular overfitting on categorical sector/session/catalyst features."
+      },
+      {
+        "repo": "optuna/optuna",
+        "branch": "master",
+        "commit": "0abf066c1e5d9d83987986869daa3c2bb23df519",
+        "license": "MIT",
+        "tier": "BEYOND_ML_CORE",
+        "orderAuthority": false,
+        "role": "Structured nested-CV hyperparameter search strictly coupled with mandatory HLZ trial-N logging."
+      },
+      {
+        "repo": "shap/shap",
+        "branch": "master",
+        "commit": "249ab618dcebdf8d4e2cf814a0b52873e0b9da60",
+        "license": "MIT",
+        "tier": "BEYOND_ML_CORE",
+        "orderAuthority": false,
+        "role": "TreeSHAP attribution auditing feature drift & leakage across purged CPCV folds."
+      },
+      {
+        "repo": "jax-ml/jax",
+        "branch": "main",
+        "commit": "4ff79d6bb2178e62fb7f31299e66f0e4e78e3bb6",
+        "license": "Apache-2.0",
+        "tier": "BEYOND_ML_CORE",
+        "orderAuthority": false,
+        "role": "XLA JIT vectorized array & autodiff engine accelerating NumPyro hierarchical EB & GPU bootstraps."
+      }
+    ],
+    "lowQualityAndBannedSourcesPurged": [
+      {"source": "ranaroussi/yfinance", "reason": "Unofficial Yahoo Finance scraper; split/survivorship/rate-limit unreliable for institutional pre-wall lakes."},
+      {"source": "mementum/backtrader", "reason": "GPL-3.0 copyleft & stale since 2024-08-19; replaced by nautilus_trader + hftbacktest + vectorbt."},
+      {"source": "kernc/backtesting.py", "reason": "AGPL-3.0 copyleft & single-asset toy scope."},
+      {"source": "cvxgrp/cvxportfolio", "reason": "GPL-3.0 copyleft; replaced by Apache-2.0 cvxpy + Clarabel.rs."},
+      {"source": "freqtrade/freqtrade", "reason": "GPL-3.0 copyleft & crypto-only bot."},
+      {"source": "edtechre/pybroker", "reason": "Non-OSI Commons Clause v1.0 restriction."},
+      {"source": "man-group/ArcticDB", "reason": "Non-OSI BUSL-1.1 production restriction; replaced by delta-rs + duckdb/ducklake."},
+      {"source": "hudson-and-thames/mlfinlab", "reason": "Proprietary All Rights Reserved & stale since 2023-10-02."},
+      {"source": "google-research/timesfm (v3.0 weights)", "reason": "Non-commercial weight license (timesfm-non-commercial-license-v1.0); replaced by Apache-2.0 amazon-science/chronos-forecasting."},
+      {"source": "jpmorganchase/abides-jpmc-public", "reason": "Archived June 2025."},
+      {"source": "Fincept-Corporation/FinceptTerminal", "reason": "AGPL-3.0 copyleft (blocked in ADR-0017)."},
+      {"source": "marketcalls/openalgo", "reason": "AGPL-3.0 copyleft."},
+      {"source": "Open-Dev-Society/OpenStock", "reason": "AGPL-3.0 copyleft."},
+      {"source": "whchien/ai-trader", "reason": "GPL-3.0 copyleft."},
+      {"source": "Unofficial TradingView Scrapers/MCPs", "reason": "Retired by Official TradingView Cloud MCP (ADR-0067); zero unofficial cookie/WS scraping."}
+    ]
   }
 }

@@ -17,7 +17,7 @@ HOME_PATH_RE = re.compile(r"/Users/(?!<user>)[A-Za-z0-9._-]+/")
 ACCOUNT_OR_KEY_RE = re.compile(
     r"\b(?:PA|DU)[0-9A-Z]{6,16}\b|\b(?:PK|AK)[0-9A-Z]{16,32}\b|\bsk-(?:ant-|proj-)?[A-Za-z0-9_\-]{20,}\b"
 )
-ALLOWED_LICENSES = {"MIT", "Apache-2.0", "BSD-3-Clause", "LGPL-3.0-or-later"}
+ALLOWED_LICENSES = {"MIT", "Apache-2.0", "BSD-3-Clause", "BSD-2-Clause", "NCSA", "LGPL-3.0-or-later"}
 HLZ_BASE_ALPHA = 0.00135
 
 
