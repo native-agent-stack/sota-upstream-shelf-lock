@@ -656,5 +656,419 @@
     "canonicalMasterIndicator": "SOTA_Master_All_In_One_24x5_Indicator.pine",
     "promotionTrack": "PROTECTIVE_FILTER_OR_GOVERNANCE",
     "standaloneAlphaClaim": false
+  },
+  "advancedStrategyAndSimMeritLandscape": {
+    "schemaId": "sota-v3113-advanced-strategy-sim-merit-landscape.v1",
+    "adr": "ADR-0020",
+    "verifiedDate": "2026-11-20",
+    "immutableCorePinsUntouched": 18,
+    "orderAuthority": false,
+    "promotionTrack": "PROTECTIVE_FILTER_OR_GOVERNANCE",
+    "standaloneAlphaClaim": false,
+    "hlzTrialConsumed": false,
+    "nextTrialId": 105,
+    "nextHlzTStar": 4.2084,
+    "livePortsRefused": [4001, 7496, 8796, 8798],
+    "liveHostsRefused": ["api.alpaca.markets"],
+    "adr0018SecurityAndLicenseAdvisories": [
+      {
+        "name": "qlib-v098-security-bump",
+        "repo": "microsoft/qlib",
+        "ref": "v0.9.8",
+        "commit": "54355232463878d2eebb91fe0ee5fa7fa1f5976c",
+        "license": "MIT",
+        "severity": "HIGH",
+        "summary": "v0.9.8 (2026-10-08) replaces arbitrary Python eval with a restricted AST expression evaluator and gates pickle/executable loading behind trusted=True; supersedes ADR-0018 v0.9.7 tag pin."
+      },
+      {
+        "name": "openbq-backends-for-openbb-successor",
+        "repo": "openbq-org/backends-for-openbb",
+        "ref": "main",
+        "commit": "a6293707576e16edda8305adda95b07b6a4b968b",
+        "license": "MIT",
+        "severity": "MEDIUM",
+        "summary": "OpenBB-finance/backends-for-openbb was archived 2026-07-29; active MIT successor lives at openbq-org/backends-for-openbb."
+      },
+      {
+        "name": "openbq-openbb-v5-apache2-relicense",
+        "repo": "openbq-org/OpenBB",
+        "ref": "openbb-v5.0.0",
+        "commit": "5a7517ae8bc74ecdcd1a549ed26df8ad131b02d0",
+        "license": "Apache-2.0",
+        "severity": "INFO",
+        "summary": "openbq-org/OpenBB openbb-v5.0.0 (2026-09-30) relicensed from AGPL-3.0-only to Apache-2.0 (OpenBQ Foundation), removing the prior AGPL copyleft wall while preserving orderAuthority=false."
+      }
+    ],
+    "permissiveFrontierLibraries": [
+      {
+        "roiRank": 1,
+        "repo": "bashtage/arch",
+        "ref": "v9.0.0",
+        "commit": "d3e858fc1c99932bb6936cbaf0d1b45b136266e5",
+        "license": "NCSA",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": true,
+        "targetStage": "STAGE_2_PREWALL_STAT_GATE",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Hansen SPA (studentized default in v9), White RC, Model Confidence Set (MCS), Stationary/Circular Block Bootstrap, HAR-RV & GARCH/FIAPARCH."
+      },
+      {
+        "roiRank": 2,
+        "repo": "bashtage/linearmodels",
+        "ref": "v7.1",
+        "commit": "d7980a7dd8d7f8802e0303b5bc769abb08a3c699",
+        "license": "NCSA",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": true,
+        "targetStage": "STAGE_2_PREWALL_STAT_GATE",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Fama-MacBeth cross-sectional regressions and two-way (entity+date) clustered panel standard errors beyond statsmodels."
+      },
+      {
+        "roiRank": 3,
+        "repo": "databento/dbn",
+        "ref": "v0.74.0",
+        "commit": "684641e33eba3008338762ea1e1e43904f32072f",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_1_2_MICROSTRUCTURE_TCA",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Zero-copy Rust/Python binary MBO/MBP-10/TBBO encoding enforcing bitemporal ts_event_ns <= ts_recv_ns nanosecond timestamps."
+      },
+      {
+        "roiRank": 4,
+        "repo": "databento/databento-python",
+        "ref": "v0.90.0",
+        "commit": "f6529f1062e0642fe52334d767a72f2a75244398",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_1_2_MICROSTRUCTURE_TCA",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Official L2/L3 MBP-10 and exchange NOII imbalance client feeding directly into pinned nautilus_trader and hftbacktest."
+      },
+      {
+        "roiRank": 5,
+        "repo": "delta-io/delta-rs",
+        "ref": "python-v1.6.6",
+        "commit": "36b8bd2906d7f643f4cd8c5e2dc1c57790b5b945",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_1_2_BITEMPORAL_LAKE",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Native Rust/Python ACID Parquet time-travel snapshots for immutable <= 2026-10-15 pre-wall datasets (permissive replacement for BUSL-1.1 ArcticDB)."
+      },
+      {
+        "roiRank": 6,
+        "repo": "duckdb/ducklake",
+        "ref": "v2.0.0",
+        "commit": "386bd87c0f6954569f6fd11beb363d6ad3526598",
+        "license": "MIT",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_1_2_BITEMPORAL_LAKE",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Native SQL-catalog ACID lakehouse & snapshot time-travel directly inside pinned duckdb v2.0.0 without JVM overhead."
+      },
+      {
+        "roiRank": 7,
+        "repo": "scikit-learn-contrib/MAPIE",
+        "ref": "v1.6.0",
+        "commit": "e4c4f5f7daeaa7c8b09323852ad1997e506891a2",
+        "license": "BSD-3-Clause",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_3_CONFORMAL_RISK",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Finite-sample Conformal Prediction (CQR, EnbPI, ACI, exchangeability tests) for distribution-free stop (<=2.00%) and slippage tail bounds."
+      },
+      {
+        "roiRank": 8,
+        "repo": "online-ml/river",
+        "ref": "0.27.0",
+        "commit": "5ea245400645aba5239e4fcb19b59b756d2e9e53",
+        "license": "BSD-3-Clause",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_3_4_DRIFT_MONITOR",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Sub-ms streaming ADWIN, PageHinkley, and KSWIN concept-drift monitors for live/paper alpha decay and Dec 6 2026 23/5 SIP cutover."
+      },
+      {
+        "roiRank": 9,
+        "repo": "pyro-ppl/numpyro",
+        "ref": "0.22.0",
+        "commit": "fc7691c7c39f72d45b20374dfc1f2cabc68df0a7",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_4_MERIT_FARM_POOLING",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "JAX-JIT NUTS/SVI Hierarchical Empirical-Bayes partial pooling across Stage-4 Merit Farm strategy cohorts."
+      },
+      {
+        "roiRank": 10,
+        "repo": "cvxpy/cvxpy",
+        "ref": "v1.9.3",
+        "commit": "c14eb23576f610ba79ee63014c0b5d78311c5568",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_4_COST_OPT",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Permissive convex optimization DSL for multi-period turnover and market-impact sizing (replaces GPL-3.0 cvxportfolio)."
+      },
+      {
+        "roiRank": 11,
+        "repo": "oxfordcontrol/Clarabel.rs",
+        "ref": "v0.11.1",
+        "commit": "b6aa0421ec818a31c7f26ada8f6cef2558c768bf",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_4_COST_OPT",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Rust interior-point conic solver pairing with cvxpy for fast SOCP/QP impact-aware allocation without copyleft."
+      },
+      {
+        "roiRank": 12,
+        "repo": "dcajasn/Riskfolio-Lib",
+        "ref": "7.4.1",
+        "commit": "344b899eb72e5636330647f08e3c5d88a8f71a84",
+        "license": "BSD-3-Clause",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_4_PORTFOLIO_RISK",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "HERC, NCO, CDaR, EVaR, EDaR, Black-Litterman & factor risk-parity extending pinned skfolio."
+      },
+      {
+        "roiRank": 13,
+        "repo": "py-why/EconML",
+        "ref": "v0.17.1",
+        "commit": "563115185754260494d9dfedf3f2417c918982b5",
+        "license": "MIT",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_CAUSAL_AUDIT",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Double Machine Learning (DML) and Causal Forests for debiased catalyst and microstructure treatment-effect estimation."
+      },
+      {
+        "roiRank": 14,
+        "repo": "py-why/dowhy",
+        "ref": "v0.14",
+        "commit": "45de9a90623bae166e32790a6bb5a77827ef91cd",
+        "license": "MIT",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_CAUSAL_AUDIT",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Structural causal DAG identification and placebo/common-cause refutation of candidate alpha factors."
+      },
+      {
+        "roiRank": 15,
+        "repo": "Nixtla/statsforecast",
+        "ref": "v2.1.1",
+        "commit": "98ce313b089b6e3d29490d2764c9a366d7256d05",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_BASELINE_HURDLES",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Fast C++/Numba zero-leakage statistical volatility/volume baselines and conformal prediction hurdles."
+      },
+      {
+        "roiRank": 16,
+        "repo": "stefan-jansen/alphalens-reloaded",
+        "ref": "0.5.1",
+        "commit": "60755d1cc7d9d36a4c70c8344cbdb168fe99df24",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_FACTOR_TEARSHEET",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Cross-sectional factor IC/RankIC decay, quantile spread, and turnover tear-sheets beyond quantstats."
+      },
+      {
+        "roiRank": 17,
+        "repo": "amazon-science/chronos-forecasting",
+        "ref": "v2.3.2",
+        "commit": "1224fafa91e1ecd6674f5204066b159e40b5e4a1",
+        "license": "Apache-2.0",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_GPU_FORECAST_BENCHMARK",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Chronos-2 zero-shot probabilistic multivariate/covariate forecasting on Noesis RTX 4090 with Apache-2.0 code AND weights (unlike TimesFM v3.0 weights)."
+      },
+      {
+        "roiRank": 18,
+        "repo": "microsoft/RD-Agent",
+        "ref": "v1.0.0",
+        "commit": "484776c211e4fbbeef03e0ec00d6bbee7362a4f4",
+        "license": "MIT",
+        "osiPermissive": true,
+        "requiresValidatorLicenseAdr": false,
+        "targetStage": "STAGE_2_COSTEER_FACTORY",
+        "class": "OPTIONAL_READ_ONLY_OR_OFFLINE_RESEARCH",
+        "orderAuthority": false,
+        "gapFilled": "Co-STEER evolutionary factor/model proposer strictly gated on pre-wall <= 2026-10-15 and mandatory HLZ trial-N logging for every candidate."
+      }
+    ],
+    "licenseFirewallBlockedOrPhilosophyOnly": [
+      {
+        "repo": "cvxgrp/cvxportfolio",
+        "commit": "351c782b9b8b395c1a5f886b77e0d55f1bc9396e",
+        "license": "GPL-3.0",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Strong copyleft GPL-3.0 outside ALLOWED_LICENSES; replace with Apache-2.0 cvxpy + Clarabel.rs."
+      },
+      {
+        "repo": "freqtrade/freqtrade",
+        "commit": "a025e7fb3b3acf0e90fd86a9f597aea5b528e1b7",
+        "license": "GPL-3.0",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Strong copyleft GPL-3.0 outside ALLOWED_LICENSES and crypto-first architecture; zero code import."
+      },
+      {
+        "repo": "kernc/backtesting.py",
+        "commit": "ca2e2611621e472542ba90f7243a1fa06a7d7108",
+        "license": "AGPL-3.0",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Network copyleft AGPL-3.0 outside ALLOWED_LICENSES and single-asset scope inferior to pinned nautilus_trader + vectorbt."
+      },
+      {
+        "repo": "edtechre/pybroker",
+        "commit": "b3aa337feaeeb25bfddf0680f4f140b4df3f9ced",
+        "license": "Apache-2.0 WITH Commons-Clause-1.0",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Non-OSI Commons Clause v1.0 restriction in verbatim LICENSE; redundant with polars + skfolio + arch."
+      },
+      {
+        "repo": "man-group/ArcticDB",
+        "commit": "2f7f5ba8288ea64c616548e593c1948868c314ea",
+        "license": "BUSL-1.1",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Non-OSI Business Source License 1.1 restricts production deployment; replace with Apache-2.0 delta-rs + MIT duckdb/ducklake."
+      },
+      {
+        "repo": "hudson-and-thames/mlfinlab",
+        "license": "Proprietary",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Proprietary All Rights Reserved verbatim LICENSE.txt and stale since 2023-10-02; zero code import or vendoring."
+      },
+      {
+        "repo": "jpmorganchase/abides-jpmc-public",
+        "commit": "f9cbe51342b7dedd9587e4e069040d68a5c6477f",
+        "license": "BSD-3-Clause",
+        "class": "PHILOSOPHY_ONLY",
+        "reason": "Archived June 2025 (unmaintained); retained solely as multi-agent LOB market-impact conceptual reference."
+      }
+    ],
+    "frontierAcademicStrategyFamilies": [
+      {
+        "familyId": "F1_OVERNIGHT_INTRADAY_BOATS_BIFURCATION",
+        "blueprintIds": ["H109_OVERNIGHT_BOATS_BIFURCATION_AND_RTH_VWAP_FADE"],
+        "datafeedReadyNow": true,
+        "citations": [
+          "https://doi.org/10.1016/j.jfineco.2019.03.011",
+          "https://doi.org/10.1016/j.jfineco.2020.06.015",
+          "https://doi.org/10.1016/j.jfineco.2020.07.020",
+          "https://doi.org/10.2139/ssrn.5181159",
+          "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6610883"
+        ],
+        "summary": "Separate overnight vs intraday return sleeves; confine BOATS continuation to macro ETFs, cross-listed ADRs & fresh catalysts while fading retail-only overnight gaps failing RTH VWAP."
+      },
+      {
+        "familyId": "F2_RESIDUAL_LEAD_LAG_AND_EOD_LETF_FLOW",
+        "blueprintIds": ["H110_RESIDUAL_DIRECTED_LEAD_LAG_AND_EOD_LETF_FLOW"],
+        "datafeedReadyNow": true,
+        "citations": [
+          "https://doi.org/10.2139/ssrn.6811380",
+          "https://doi.org/10.1007/s10994-022-06250-4",
+          "https://doi.org/10.1016/j.jfineco.2021.04.029",
+          "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3925725",
+          "https://doi.org/10.1111/jofi.13410"
+        ],
+        "summary": "Factor-neutral directed residual lead-lag networks plus mechanical 15:30-16:00 ET LETF/dealer hedging flow (retiring obsolete S&P 500 addition pops per Greenwood & Sammon 2025)."
+      },
+      {
+        "familyId": "F3_ZERO_NEW_FEED_EDGAR_CATALYST_AND_OVERHANG",
+        "blueprintIds": [
+          "H111_EDGAR_FORM4_CLUSTER_AND_XML_13D_ACCEPTANCE_PIT",
+          "H112_LAZY_PRICES_FILING_DIFF_AND_ATM_OVERHANG_SHORT"
+        ],
+        "datafeedReadyNow": true,
+        "citations": [
+          "https://doi.org/10.1111/j.1540-6261.2012.01740.x",
+          "https://doi.org/10.1111/jofi.12260",
+          "https://doi.org/10.1111/jofi.12885",
+          "https://doi.org/10.1017/S002210902300028X",
+          "https://doi.org/10.1017/S0022109018000893",
+          "https://doi.org/10.1016/j.jfi.2019.100832",
+          "https://doi.org/10.1287/mnsc.2024.4987"
+        ],
+        "summary": "Exploit pinned edgartools v6.2.0 strictly keyed on acceptanceDateTime: opportunistic Form 4 clusters, 5-day XML SC 13D Item 4/6 swaps, Lazy Prices 10-K/10-Q diffs, PEAD.txt, and S-3 ATM/PIPE overhang short filters."
+      },
+      {
+        "familyId": "F4_MULTILEVEL_OFI_AND_CLOSING_AUCTION_NOII",
+        "blueprintIds": ["H114_MULTILEVEL_INTEGRATED_OFI_AND_NOII_AUCTION_DBN"],
+        "datafeedReadyNow": false,
+        "citations": [
+          "https://doi.org/10.1080/14697688.2023.2236159",
+          "https://arxiv.org/abs/2112.13213",
+          "https://doi.org/10.1111/mafi.12413",
+          "https://doi.org/10.1016/j.finmar.2023.100852"
+        ],
+        "summary": "10-level Integrated OFI lagged cross-impact and 15:50-16:00 ET NOII closing auction liquidity provision, explicitly gated on future Databento DBN MBP-10 + NOII onboarding."
+      },
+      {
+        "familyId": "F5_TRIPLE_BARRIER_META_LABEL_AND_CONFORMAL_PID",
+        "blueprintIds": ["H113_TRIPLE_BARRIER_META_LABEL_AND_CONFORMAL_PID_STOP"],
+        "datafeedReadyNow": true,
+        "citations": [
+          "https://doi.org/10.1017/9781009397315",
+          "https://arxiv.org/abs/2106.00170",
+          "https://arxiv.org/abs/2208.08401",
+          "https://arxiv.org/abs/2307.16895",
+          "https://doi.org/10.1016/j.jfineco.2020.04.015"
+        ],
+        "summary": "Triple-Barrier meta-labeling with Conformal PID / DtACI adaptive intrabar MAE stop widths clamped <= 2.00% (ADR-0022) and Cederburg-safe <= 1.0x asymmetric vol crash brake."
+      },
+      {
+        "familyId": "F6_FIXED_SHARE_HEDGE_HIERARCHICAL_EB_AND_SPA_MCS",
+        "blueprintIds": ["ADR0029_STAGE2_STAGE4_GOVERNANCE_UPGRADE"],
+        "datafeedReadyNow": true,
+        "citations": [
+          "https://doi.org/10.1198/073500105000000063",
+          "https://doi.org/10.1111/j.1468-0262.2005.00615.x",
+          "https://doi.org/10.3982/ECTA5771",
+          "https://doi.org/10.1006/jcss.1997.1504",
+          "https://doi.org/10.1111/jofi.13249",
+          "https://ssrn.com/abstract=5520741"
+        ],
+        "summary": "Unify RC -> Hansen SPA -> Romano-Wolf StepM -> MCS alongside ml4t-diagnostic DSR/RAS/PBO/MinTRL, plus full-information Fixed-Share Hedge and Jensen-Kelly-Pedersen Hierarchical EB cluster shrinkage."
+      }
+    ]
   }
 }
