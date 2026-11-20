@@ -562,7 +562,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--require-full-compliance",
         action="store_true",
-        help="With --audit-workstation, exit non-zero unless 100% of repos pass upstream-map & ADR evidence",
+        help="With --audit-workstation, exit non-zero unless 100%% of repos pass upstream-map & ADR evidence",
     )
     parser.add_argument(
         "--bootstrap-org-blueprint",
