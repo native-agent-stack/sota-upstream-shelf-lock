@@ -10,3 +10,5 @@ defaultTabs:
     command: uv run --extra dev python -m shelf_lock.validator --verify-no-leaks && uv run --extra dev python scripts/architecture_catalog.py --check
   - title: Pytest
     command: uv run --extra dev pytest -q
+  - title: Tier-0 Merge Gate
+    command: uv run --extra dev python scripts/merge_gate.py
