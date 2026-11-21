@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import hashlib
+import importlib.util
 import json
 import os
 import pathlib
@@ -52,15 +53,40 @@ BANNED_LOW_QUALITY_UPSTREAMS: frozenset[str] = frozenset(
     }
 )
 
-# Bare non-library placeholders disallowed as sole upstream provenance for active sim/backtest/strategy engines
+# Bare non-library & paper-self-invention placeholders disallowed as sole upstream provenance for active sim/backtest/strategy engines
 NON_LIBRARY_ENGINE_PLACEHOLDERS: frozenset[str] = frozenset(
     {
         "cpython-stdlib",
         "cpython",
         "stdlib",
         "academic-momentum-literature",
+        "academic-microstructure",
+        "academic-literature",
+        "academic-paper",
+        "paper-only",
+        "paper-implementation",
+        "paper-from-scratch",
+        "arxiv-paper",
+        "literature",
+        "research-paper",
+        "from-scratch",
+        "self-invented",
+        "hand-rolled",
         "own-design",
+        "custom-paper",
+        "bespoke-paper",
     }
+)
+
+PAPER_SELF_INVENTION_UPSTREAM_RE = re.compile(
+    r"(?:^|-)(?:academic|literature|from-scratch|self-invented|hand-rolled|own-design|paper-only|"
+    r"paper-from-scratch|paper-implementation|arxiv-paper|research-paper|custom-paper|bespoke-paper)(?:-|$)"
+)
+PAPER_SELF_INVENTION_TEXT_RE = re.compile(
+    r"\b(?:self[- ]invent(?:ed)?\s+(?:from|based\s+on)\s+(?:a\s+)?paper|"
+    r"re[- ]?implement(?:ed)?\s+from\s+scratch\s+(?:based\s+on|from)\s+(?:a\s+)?paper|"
+    r"hand[- ]?roll(?:ed)?\s+(?:backtest(?:er|ing)?|strategy|indicator)\s+(?:from|based\s+on)\s+(?:a\s+)?paper)\b",
+    re.IGNORECASE,
 )
 
 ENGINE_FILENAME_KEYWORDS: tuple[str, ...] = (
@@ -256,12 +282,22 @@ def verify_upstream_map(
                 has_extra_libs = isinstance(upstream_libs, list) and any(
                     str(x).strip()
                     and _norm_key(str(x)) not in {_norm_key(p) for p in NON_LIBRARY_ENGINE_PLACEHOLDERS}
+                    and not PAPER_SELF_INVENTION_UPSTREAM_RE.search(_norm_key(str(x)))
                     for x in upstream_libs
                 )
-                if u_norm in {_norm_key(p) for p in NON_LIBRARY_ENGINE_PLACEHOLDERS} and not has_extra_libs:
+                if (
+                    u_norm in {_norm_key(p) for p in NON_LIBRARY_ENGINE_PLACEHOLDERS}
+                    or PAPER_SELF_INVENTION_UPSTREAM_RE.search(u_norm)
+                ) and not has_extra_libs:
                     errors.append(
                         f"upstream-map.toml engine pattern '{pat}' uses non-library placeholder '{u_name}'; "
-                        "strategy/backtest/sim engines must bind to a real maintained SOTA upstream library"
+                        "strategy/backtest/sim engines must bind to a real maintained SOTA upstream library "
+                        "(zero paper self-invention; clean-installed frameworks + official paper repos only)"
+                    )
+                if PAPER_SELF_INVENTION_TEXT_RE.search(f"{feature} {why}"):
+                    errors.append(
+                        f"upstream-map.toml engine pattern '{pat}' declares paper self-invention from scratch; "
+                        "only cleanly installed SOTA frameworks + official paper repos tested E2E on historical data are allowed"
                     )
 
         if how not in ALLOWED_HOW_MODES:
@@ -400,6 +436,47 @@ def verify_zero_leaks_and_noreply(repo_root: pathlib.Path) -> list[str]:
             if not email.endswith(("users.noreply.github.com", "noreply@github.com")):
                 errors.append(f"Commit {sha[:10]} uses non-noreply email '{email}'")
     return errors
+
+
+def verify_clean_installed_frameworks(
+    required_modules: list[str] | tuple[str, ...],
+    *,
+    python_exe: pathlib.Path | None = None,
+) -> dict[str, Any]:
+    """Verify required SOTA upstream frameworks are actually installed (not merely declared in TOML)."""
+    mods = [str(m).strip() for m in required_modules if str(m).strip()]
+    installed: list[str] = []
+    missing: list[str] = []
+    if python_exe is None:
+        for mod in mods:
+            if importlib.util.find_spec(mod) is not None:
+                installed.append(mod)
+            else:
+                missing.append(mod)
+    else:
+        probe = (
+            "import importlib.util, json, sys; "
+            "mods = json.loads(sys.argv[1]); "
+            "inst = [m for m in mods if importlib.util.find_spec(m) is not None]; "
+            "miss = [m for m in mods if m not in inst]; "
+            "print(json.dumps({'installed': inst, 'missing': miss}))"
+        )
+        kwargs: dict[str, Any] = {"capture_output": True, "text": True, "timeout": 20}
+        if sys.platform == "win32":
+            kwargs["creationflags"] = CREATE_NO_WINDOW
+        proc = subprocess.run([str(python_exe), "-c", probe, json.dumps(mods)], check=False, **kwargs)
+        if proc.returncode != 0 or not proc.stdout.strip():
+            missing = list(mods)
+        else:
+            parsed = json.loads(proc.stdout.strip().splitlines()[-1])
+            installed = list(parsed.get("installed") or [])
+            missing = list(parsed.get("missing") or [])
+    return {
+        "ok": len(missing) == 0,
+        "checked": mods,
+        "installed": installed,
+        "missing": missing,
+    }
 
 
 def audit_workstation_repos(

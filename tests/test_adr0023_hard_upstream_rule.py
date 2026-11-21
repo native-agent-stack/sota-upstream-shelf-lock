@@ -12,6 +12,7 @@ from shelf_lock.hard_upstream_rule import (
     audit_workstation_repos,
     parse_upstream_md_components,
     verify_adrs_have_evidence,
+    verify_clean_installed_frameworks,
     verify_sealed_manifests,
     verify_shelf_pins_on_disk,
     verify_upstream_map,
@@ -158,3 +159,41 @@ def test_bootstrap_cleanroom_spl_org_generates_verified_6_repo_blueprint(tmp_pat
         "| **L0** | `mise` | https://github.com/jdx/mise | `2026.11.6` | MIT |"
     )
     assert "mise" in comps and "jdx/mise" in comps
+
+
+def test_rejects_paper_self_invention_placeholders_and_checks_clean_installed(tmp_path: pathlib.Path) -> None:
+    repo = _init_temp_git_repo(
+        tmp_path,
+        {
+            "UPSTREAM.md": (
+                "| `academic-paper` | 2026 | N/A | url | 2026 | paper | upstream |\n"
+                "| `arxiv-paper` | 2026 | N/A | url | 2026 | paper | upstream |\n"
+                "| `paper-from-scratch` | 2026 | N/A | url | 2026 | paper | upstream |\n"
+                "| `self-invented` | 2026 | N/A | url | 2026 | custom | upstream |\n"
+                "- `nautechsystems/nautilus_trader` @ `da6b57aefdd62b44f675e434ffcfefca7f4025dd`\n"
+            ),
+            "upstream-map.toml": (
+                "[areas]\n"
+                '"src/a_strategy.py" = { upstream = "academic-paper", how = "build-on", feature = "f", why = "w" }\n'
+                '"src/b_strategy.py" = { upstream = "arxiv-paper", how = "build-on", feature = "f", why = "w" }\n'
+                '"src/c_backtest.py" = { upstream = "paper-from-scratch", how = "build-on", feature = "f", why = "w" }\n'
+                '"src/d_sim.py" = { upstream = "self-invented", how = "build-on", feature = "f", why = "w" }\n'
+                '"src/e_strategy.py" = { upstream = "nautilus_trader", how = "build-on", feature = "self-invented from paper", why = "re-implemented from scratch based on a paper" }\n'
+            ),
+            "src/a_strategy.py": "pass\n",
+            "src/b_strategy.py": "pass\n",
+            "src/c_backtest.py": "pass\n",
+            "src/d_sim.py": "pass\n",
+            "src/e_strategy.py": "pass\n",
+        },
+    )
+    errs = verify_upstream_map(repo, covered_prefixes=("src/",), strict_engine_binding=True)
+    for key in ("a_strategy.py", "b_strategy.py", "c_backtest.py", "d_sim.py", "e_strategy.py"):
+        assert any(key in e for e in errs), f"Expected rejection for {key}, got {errs}"
+
+    ok_res = verify_clean_installed_frameworks(["json", "pathlib"])
+    assert ok_res["ok"] is True
+    assert ok_res["missing"] == []
+    bad_res = verify_clean_installed_frameworks(["json", "definitely_not_installed_sota_pkg_xyz"])
+    assert bad_res["ok"] is False
+    assert bad_res["missing"] == ["definitely_not_installed_sota_pkg_xyz"]
