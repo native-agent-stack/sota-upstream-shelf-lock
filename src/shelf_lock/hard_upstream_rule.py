@@ -245,14 +245,17 @@ def verify_upstream_map(
         else:
             u_norm = _norm_key(u_name)
             if u_norm in {_norm_key(b) for b in BANNED_LOW_QUALITY_UPSTREAMS}:
-                errors.append(f"upstream-map.toml pattern '{pat}' cites banned low-quality upstream '{u_name}'")
+                errors.append(
+                    f"upstream-map.toml pattern '{pat}' cites banned low-quality upstream '{u_name}'"
+                )
             if u_name not in registered and u_norm not in registered:
                 errors.append(
                     f"upstream-map.toml pattern '{pat}' cites upstream '{u_name}' not registered in UPSTREAM.md"
                 )
             if strict_engine_binding and is_sim_or_strategy_engine_pattern(pat):
                 has_extra_libs = isinstance(upstream_libs, list) and any(
-                    str(x).strip() and _norm_key(str(x)) not in {_norm_key(p) for p in NON_LIBRARY_ENGINE_PLACEHOLDERS}
+                    str(x).strip()
+                    and _norm_key(str(x)) not in {_norm_key(p) for p in NON_LIBRARY_ENGINE_PLACEHOLDERS}
                     for x in upstream_libs
                 )
                 if u_norm in {_norm_key(p) for p in NON_LIBRARY_ENGINE_PLACEHOLDERS} and not has_extra_libs:
@@ -262,7 +265,9 @@ def verify_upstream_map(
                     )
 
         if how not in ALLOWED_HOW_MODES:
-            errors.append(f"upstream-map.toml pattern '{pat}' invalid how={how!r}; expected {sorted(ALLOWED_HOW_MODES)}")
+            errors.append(
+                f"upstream-map.toml pattern '{pat}' invalid how={how!r}; expected {sorted(ALLOWED_HOW_MODES)}"
+            )
         if not feature:
             errors.append(f"upstream-map.toml pattern '{pat}' missing non-empty 'feature'")
         if not why:
@@ -281,7 +286,9 @@ def verify_upstream_map(
         if not rel.startswith(covered_prefixes):
             continue
         if not matched_any:
-            errors.append(f"Unmapped implementation file '{rel}': add SOTA upstream entry in upstream-map.toml")
+            errors.append(
+                f"Unmapped implementation file '{rel}': add SOTA upstream entry in upstream-map.toml"
+            )
 
     for pat in areas:
         if pat not in used_patterns:
@@ -323,9 +330,7 @@ def verify_sealed_manifests(repo_root: pathlib.Path) -> list[str]:
         if not isinstance(doc, dict):
             errors.append(f"Manifest '{path.name}' root must be JSON object")
             continue
-        has_digest = any(
-            k in doc for k in ("manifest_sha256", "sha256", "content_sha256", "seal_sha256")
-        )
+        has_digest = any(k in doc for k in ("manifest_sha256", "sha256", "content_sha256", "seal_sha256"))
         if not has_digest:
             errors.append(f"Manifest '{path.name}' missing cryptographic digest field (manifest_sha256)")
         if ACCOUNT_OR_KEY_RE.search(raw) or HOME_PATH_RE.search(raw) or WIN_HOME_PATH_RE.search(raw):
@@ -368,7 +373,11 @@ def verify_zero_leaks_and_noreply(repo_root: pathlib.Path) -> list[str]:
     if ls_r.returncode != 0:
         return [f"git ls-files failed: {ls_r.stderr.strip()}"]
     for rel in (ln.strip() for ln in ls_r.stdout.splitlines() if ln.strip()):
-        if rel in {"scripts/merge_gate.py", "src/shelf_lock/hard_upstream_rule.py", "src/shelf_lock/validator.py"}:
+        if rel in {
+            "scripts/merge_gate.py",
+            "src/shelf_lock/hard_upstream_rule.py",
+            "src/shelf_lock/validator.py",
+        }:
             continue
         fp = repo_root / rel
         if not fp.is_file():
@@ -458,11 +467,31 @@ def audit_workstation_repos(
 
 CLEANROOM_SPL_ORG_REPOS: tuple[tuple[str, str, str], ...] = (
     (".github", "org-profile", "Organization governance, SHA-pinned reusable CI, and zero-leak org manifest"),
-    ("sota-shelf-lock", "L0-shelf", "Immutable 18-pin upstream shelf registry, ADR-0023/0024 hard rules, and audit CLI"),
-    ("sota-research-sim-lab", "L5-sim", "Pre-wall (<=2026-10-15) NautilusTrader/VectorBT/hftbacktest/5-lib causal research & CPCV/DSR falsifier"),
-    ("sota-paper-live-engine", "L3-exec", "NautilusTrader + alpaca-py + ib_async Paper->Live engine with ADR-0022 <=2.00% stops & atomic SAR"),
-    ("sota-compounding-harness", "L9-harness", "8-runtime PreToolUse SOTA-source hooks, 60-skill SkillEvaluator, Empirical-Bayes compounding & sota-bus"),
-    ("sota-orca-workflows", "L9-orca", "Dual-workstation Orca worktree/automation workflows & research-convergence-first landing gates"),
+    (
+        "sota-shelf-lock",
+        "L0-shelf",
+        "Immutable 18-pin upstream shelf registry, ADR-0023/0024 hard rules, and audit CLI",
+    ),
+    (
+        "sota-research-sim-lab",
+        "L5-sim",
+        "Pre-wall (<=2026-10-15) NautilusTrader/VectorBT/hftbacktest/5-lib causal research & CPCV/DSR falsifier",
+    ),
+    (
+        "sota-paper-live-engine",
+        "L3-exec",
+        "NautilusTrader + alpaca-py + ib_async Paper->Live engine with ADR-0022 <=2.00% stops & atomic SAR",
+    ),
+    (
+        "sota-compounding-harness",
+        "L9-harness",
+        "8-runtime PreToolUse SOTA-source hooks, 60-skill SkillEvaluator, Empirical-Bayes compounding & sota-bus",
+    ),
+    (
+        "sota-orca-workflows",
+        "L9-orca",
+        "Dual-workstation Orca worktree/automation workflows & research-convergence-first landing gates",
+    ),
 )
 
 
@@ -474,17 +503,16 @@ def bootstrap_cleanroom_spl_org(
     """Generate a turnkey clean-room Sim->Paper->Live org blueprint pre-wired with ADR-0023 hard rules."""
     root = target_dir.resolve()
     root.mkdir(parents=True, exist_ok=True)
-    pins_raw = json.loads((pathlib.Path(__file__).resolve().parents[2] / "PINS_LOCK.json").read_text(encoding="utf-8"))
+    pins_raw = json.loads(
+        (pathlib.Path(__file__).resolve().parents[2] / "PINS_LOCK.json").read_text(encoding="utf-8")
+    )
     shelf_rows = pins_raw.get("upstreamShelfPins", []) if isinstance(pins_raw, dict) else []
     pins = {str(item["name"]): item for item in shelf_rows if isinstance(item, dict) and "name" in item}
     pin_rows = "\n".join(
         f"| `{k}` | `{v.get('ref', '')}` @ `{v.get('commit', '')}` | {v.get('license', '')} | {v.get('url', '')} | upstream |"
         for k, v in sorted(pins.items())
     )
-    pin_toml = "\n".join(
-        f'"{k}" = "{v.get("commit", "")}"'
-        for k, v in sorted(pins.items())
-    )
+    pin_toml = "\n".join(f'"{k}" = "{v.get("commit", "")}"' for k, v in sorted(pins.items()))
 
     created_repos: list[dict[str, Any]] = []
     for repo_name, layer, role in CLEANROOM_SPL_ORG_REPOS:
@@ -556,9 +584,13 @@ def bootstrap_cleanroom_spl_org(
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Universal Hard SOTA Upstream-Source & ADR-Evidence Enforcer")
+    parser = argparse.ArgumentParser(
+        description="Universal Hard SOTA Upstream-Source & ADR-Evidence Enforcer"
+    )
     parser.add_argument("--repo", type=pathlib.Path, help="Verify a single repository root")
-    parser.add_argument("--audit-workstation", type=pathlib.Path, help="Audit all git repos under a directory")
+    parser.add_argument(
+        "--audit-workstation", type=pathlib.Path, help="Audit all git repos under a directory"
+    )
     parser.add_argument(
         "--require-full-compliance",
         action="store_true",
@@ -569,7 +601,9 @@ def main(argv: list[str] | None = None) -> int:
         type=pathlib.Path,
         help="Generate clean-room Sim->Paper->Live org blueprint pre-wired with ADR-0023 hard rules",
     )
-    parser.add_argument("--org-name", default="sota-spl-cleanroom", help="Org name for --bootstrap-org-blueprint")
+    parser.add_argument(
+        "--org-name", default="sota-spl-cleanroom", help="Org name for --bootstrap-org-blueprint"
+    )
     parser.add_argument("--json", action="store_true", help="Emit JSON output")
     args = parser.parse_args(argv)
 
@@ -613,7 +647,9 @@ def main(argv: list[str] | None = None) -> int:
         for p in problems:
             print(f"[HARD-UPSTREAM-RULE FAIL] {p}", file=sys.stderr)
     else:
-        print("[HARD-UPSTREAM-RULE PASS] 100% upstream-map, ADR evidence, shelf pins, and zero-leak verified.")
+        print(
+            "[HARD-UPSTREAM-RULE PASS] 100% upstream-map, ADR evidence, shelf pins, and zero-leak verified."
+        )
     return 0 if not problems else 1
 
 

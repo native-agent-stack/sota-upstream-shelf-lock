@@ -129,7 +129,9 @@ def test_audit_workstation_repos_emits_sealed_sha256_report(tmp_path: pathlib.Pa
         },
     )
     assert sub.is_dir()
-    report = audit_workstation_repos(tmp_path, pins_lock=load_pins_lock(REPO_ROOT), shelf_root=tmp_path / "absent")
+    report = audit_workstation_repos(
+        tmp_path, pins_lock=load_pins_lock(REPO_ROOT), shelf_root=tmp_path / "absent"
+    )
     assert report["schema"] == HARD_UPSTREAM_RULE_SCHEMA
     assert report["adr"] == HARD_UPSTREAM_RULE_ADR
     assert report["repos_audited"] == 1
